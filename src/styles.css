@@ -115,6 +115,7 @@ input {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .topbar {
@@ -311,6 +312,11 @@ input {
   -moz-appearance: none;
 }
 
+.language-selector select option {
+  background: var(--panel);
+  color: var(--text);
+}
+
 .sidebar-language {
   width: 100%;
   justify-content: space-between;
@@ -414,10 +420,10 @@ input {
 }
 
 .composer {
-  position: sticky;
-  bottom: 0;
+  flex-shrink: 0;
   padding: 16px;
   background: linear-gradient(180deg, transparent 0%, rgba(9, 19, 29, 0.95) 24%);
+  z-index: 4;
 }
 
 .composer textarea {
@@ -611,7 +617,7 @@ input {
   }
 
   .chat-window {
-    padding: 20px 12px 160px;
+    padding: 20px 12px 24px;
   }
 
   .message-row.user {
@@ -626,6 +632,7 @@ input {
 
   .composer {
     padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   }
 
   .composer-row {
