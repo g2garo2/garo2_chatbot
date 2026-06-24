@@ -2,17 +2,15 @@ import MessageBubble from "./MessageBubble";
 
 function getGreeting(name) {
   const hour = new Date().getHours();
-  let greeting = "Hello";
+  let greeting = "Good evening";
 
   if (hour < 12) {
     greeting = "Good morning";
   } else if (hour < 17) {
     greeting = "Good afternoon";
-  } else {
-    greeting = "Good evening";
   }
 
-  return `${greeting} ${name || "there"},`;
+  return `${greeting} ${name || "there"}`;
 }
 
 export default function ChatWindow({ messages, pending, bottomRef, user }) {
@@ -22,7 +20,7 @@ export default function ChatWindow({ messages, pending, bottomRef, user }) {
         <div className="hero-card">
           <div className="eyebrow">Garo2</div>
           <h2>{getGreeting(user?.name)}</h2>
-          <p className="hero-copy">What can I help you with today?</p>
+          <p className="hero-copy hero-copy-strong">What can I help you with today</p>
         </div>
       </section>
     );

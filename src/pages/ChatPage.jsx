@@ -15,7 +15,7 @@ export default function ChatPage() {
   const [error, setError] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
-  const [model, setModel] = useState("Garo2 Smart");
+  const [selectedLanguage, setSelectedLanguage] = useState("english");
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -35,9 +35,6 @@ export default function ChatPage() {
     try {
       const history = await chatApi.getHistory();
       setChats(history);
-      if (history.length > 0) {
-        await openChat(history[0].id);
-      }
     } catch (err) {
       setError(err?.response?.data?.detail || "Could not load chat history.");
     }
@@ -112,7 +109,7 @@ export default function ChatPage() {
         content: text,
         image_url: imageUrl,
         input_language: "english",
-        output_language: "english",
+        output_language: selectedLanguage,
       };
       setMessages((prev) => [...prev, optimisticUserMessage]);
 
@@ -120,7 +117,7 @@ export default function ChatPage() {
         content: text,
         image_url: imageUrl,
         input_language: "english",
-        output_language: "english",
+        output_language: selectedLanguage,
       });
       setMessages((prev) => [
         ...prev.filter((message) => message.id !== optimisticUserMessage.id),
@@ -146,6 +143,8 @@ export default function ChatPage() {
           onDeleteChat={deleteChat}
           onNewChat={createChat}
           onLogout={logout}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={setSelectedLanguage}
         />
       </aside>
 
@@ -155,12 +154,11 @@ export default function ChatPage() {
             <Menu size={18} />
           </button>
           <div className="topbar-title">Garo2</div>
-          <label className="model-selector">
-            <span>Model</span>
-            <select value={model} onChange={(event) => setModel(event.target.value)}>
-              <option>Garo2 Smart</option>
-              <option>Garo2 Vision</option>
-              <option>Garo2 Fast</option>
+          <label className="language-selector desktop-only-flex">
+            <span>Language</span>
+            <select value={selectedLanguage} onChange={(event) => setSelectedLanguage(event.target.value)}>
+              <option value="english">English</option>
+              <option value="garo">Garo</option>
             </select>
           </label>
           <button className="icon-button header-new-chat" onClick={createChat} aria-label="New chat" title="New chat">

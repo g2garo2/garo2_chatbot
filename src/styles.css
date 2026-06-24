@@ -281,7 +281,7 @@ input {
   font-size: 0.92rem;
 }
 
-.model-selector {
+.language-selector {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -293,11 +293,16 @@ input {
   font-size: 0.9rem;
 }
 
-.model-selector select {
+.language-selector select {
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--text);
+}
+
+.sidebar-language {
+  width: 100%;
+  justify-content: space-between;
 }
 
 .chat-window {
@@ -330,6 +335,12 @@ input {
 .hero-copy {
   color: var(--text-muted);
   line-height: 1.7;
+}
+
+.hero-copy-strong {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.05rem;
 }
 
 .message-row {
@@ -569,10 +580,6 @@ input {
     z-index: 5;
   }
 
-  .model-selector {
-    display: none;
-  }
-
   .mobile-only,
   .header-new-chat {
     border: 0;
@@ -606,6 +613,10 @@ input {
 
 @media (min-width: 901px) {
   .desktop-only {
+    display: flex;
+  }
+
+  .desktop-only-flex {
     display: flex;
   }
 

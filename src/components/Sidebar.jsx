@@ -9,6 +9,8 @@ export default function Sidebar({
   onDeleteChat,
   onNewChat,
   onLogout,
+  selectedLanguage,
+  onLanguageChange,
 }) {
   const [query, setQuery] = useState("");
 
@@ -32,6 +34,13 @@ export default function Sidebar({
       </div>
 
       <div className="sidebar-header">
+        <label className="language-selector mobile-only-flex sidebar-language">
+          <span>Language</span>
+          <select value={selectedLanguage} onChange={(event) => onLanguageChange(event.target.value)}>
+            <option value="english">English</option>
+            <option value="garo">Garo</option>
+          </select>
+        </label>
         <label className="sidebar-search">
           <Search size={16} />
           <input
