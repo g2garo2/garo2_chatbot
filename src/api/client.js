@@ -1,7 +1,22 @@
 import axios from "axios";
 
+function resolveApiBaseUrl() {
+  const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").trim();
+  if (!rawBaseUrl) {
+    return "";
+  }
+
+  // Guard against misconfigured env values like "url1,url2".
+  const [firstBaseUrl] = rawBaseUrl
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  return firstBaseUrl?.replace(/\/+$/, "") || "";
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: resolveApiBaseUrl(),
 });
 
 api.interceptors.request.use((config) => {
