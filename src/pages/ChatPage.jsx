@@ -171,7 +171,6 @@ export default function ChatPage() {
           messages={messages}
           pending={pending}
           bottomRef={bottomRef}
-          user={user}
         />
         <ChatInput
           onSend={sendMessage}
