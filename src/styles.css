@@ -104,6 +104,11 @@ input {
   gap: 16px;
 }
 
+.sidebar-header {
+  display: grid;
+  gap: 12px;
+}
+
 .chat-layout {
   flex: 1;
   display: flex;
@@ -204,10 +209,12 @@ input {
   align-items: center;
   gap: 10px;
   padding: 0 14px;
+  width: 100%;
 }
 
 .sidebar-search input {
   width: 100%;
+  min-width: 0;
   border: 0;
   outline: 0;
   padding: 12px 0;
@@ -294,10 +301,14 @@ input {
 }
 
 .language-selector select {
+  min-width: 0;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--text);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .sidebar-language {
@@ -443,6 +454,10 @@ input {
   line-height: 1.5;
 }
 
+.composer-textarea {
+  min-width: 0;
+}
+
 .image-pill {
   margin-top: 10px;
   display: inline-flex;
@@ -572,6 +587,14 @@ input {
 }
 
 @media (max-width: 640px) {
+  .sidebar-inner {
+    padding: 16px 14px;
+  }
+
+  .sidebar-brand {
+    display: flex;
+  }
+
   .topbar {
     padding: 14px;
     gap: 14px;
@@ -608,6 +631,29 @@ input {
   .composer-row {
     grid-template-columns: 48px 1fr 48px;
     gap: 10px;
+  }
+
+  .sidebar-search,
+  .language-selector,
+  .composer-row,
+  .image-pill {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .language-selector {
+    justify-content: space-between;
+    background: var(--panel);
+    color: var(--text);
+  }
+
+  .language-selector span {
+    white-space: nowrap;
+  }
+
+  .language-selector select {
+    color: var(--text);
+    text-align: right;
   }
 }
 
