@@ -327,33 +327,9 @@ input {
   place-items: center;
 }
 
-.prompt-grid {
-  display: grid;
-  gap: 12px;
-  margin-top: 18px;
-}
-
 .hero-copy {
   color: var(--text-muted);
   line-height: 1.7;
-}
-
-.prompt-card {
-  width: 100%;
-  text-align: left;
-  padding: 16px 18px;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  background: var(--panel-soft);
-  color: inherit;
-  cursor: pointer;
-  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-}
-
-.prompt-card:hover {
-  transform: translateY(-1px);
-  border-color: rgba(88, 208, 187, 0.38);
-  background: rgba(23, 46, 67, 0.9);
 }
 
 .message-row {
@@ -588,6 +564,9 @@ input {
   .topbar {
     padding: 14px;
     gap: 14px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
   }
 
   .model-selector {

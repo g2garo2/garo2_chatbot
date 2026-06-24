@@ -173,7 +173,7 @@ export default function ChatPage() {
           messages={messages}
           pending={pending}
           bottomRef={bottomRef}
-          onPromptSelect={(prompt) => sendMessage({ text: prompt, imageFile: null })}
+          user={user}
         />
         <ChatInput
           onSend={sendMessage}

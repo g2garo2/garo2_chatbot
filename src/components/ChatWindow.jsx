@@ -1,34 +1,28 @@
 import MessageBubble from "./MessageBubble";
 
-const starterPrompts = [
-  "Translate this English message into natural Garo.",
-  "Summarize this topic in simple bullet points.",
-  "Help me write a clear reply for a work message.",
-  "Describe what is happening in this image.",
-];
+function getGreeting(name) {
+  const hour = new Date().getHours();
+  let greeting = "Hello";
 
-export default function ChatWindow({ messages, pending, bottomRef, onPromptSelect }) {
+  if (hour < 12) {
+    greeting = "Good morning";
+  } else if (hour < 17) {
+    greeting = "Good afternoon";
+  } else {
+    greeting = "Good evening";
+  }
+
+  return `${greeting} ${name || "there"},`;
+}
+
+export default function ChatWindow({ messages, pending, bottomRef, user }) {
   if (!messages.length) {
     return (
       <section className="chat-window empty-state">
         <div className="hero-card">
-          <div className="eyebrow">Bilingual AI chat</div>
-          <h2>What can I help you with today?</h2>
-          <p className="hero-copy">
-            Ask questions, translate between English and Garo, analyze images, or draft replies with a clean chat experience across devices.
-          </p>
-          <div className="prompt-grid">
-            {starterPrompts.map((prompt) => (
-              <button
-                key={prompt}
-                className="prompt-card"
-                onClick={() => onPromptSelect(prompt)}
-                type="button"
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
+          <div className="eyebrow">Garo2</div>
+          <h2>{getGreeting(user?.name)}</h2>
+          <p className="hero-copy">What can I help you with today?</p>
         </div>
       </section>
     );
