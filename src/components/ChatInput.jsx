@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ImagePlus, Send } from "lucide-react";
+import { ImagePlus, Mic, Send } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
 
 export default function ChatInput({ languageState, setLanguageState, onSend, disabled }) {
@@ -30,9 +30,10 @@ export default function ChatInput({ languageState, setLanguageState, onSend, dis
         <textarea
           value={text}
           onChange={(event) => setText(event.target.value)}
-          placeholder="Type in English or Garo..."
+          placeholder="Message Garo2 in English or Garo..."
           rows={1}
           disabled={disabled}
+          className="composer-textarea"
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault();
@@ -40,6 +41,9 @@ export default function ChatInput({ languageState, setLanguageState, onSend, dis
             }
           }}
         />
+        <button className="icon-button composer-voice-button" type="button" title="Voice input coming soon">
+          <Mic size={18} />
+        </button>
         <button className="send-button" type="submit" disabled={disabled}>
           <Send size={18} />
         </button>

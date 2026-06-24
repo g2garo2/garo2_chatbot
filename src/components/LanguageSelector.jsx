@@ -7,7 +7,7 @@ export default function LanguageSelector({ languageState, setLanguageState }) {
   return (
     <div className="language-grid">
       <label>
-        Input
+        Input language
         <select
           value={languageState.inputLanguage}
           onChange={(event) =>
@@ -22,7 +22,7 @@ export default function LanguageSelector({ languageState, setLanguageState }) {
         </select>
       </label>
       <label>
-        Output
+        Output language
         <select
           value={languageState.outputLanguage}
           onChange={(event) =>

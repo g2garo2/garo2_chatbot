@@ -20,11 +20,17 @@ export default function ChatPage() {
   const [error, setError] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [languageState, setLanguageState] = useState(defaultLanguageState);
+  const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
   const bottomRef = useRef(null);
 
   useEffect(() => {
     loadHistory();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("garo2_theme", theme);
+  }, [theme]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -134,6 +140,8 @@ export default function ChatPage() {
     }
   };
 
+  const activeChat = chats.find((chat) => chat.id === activeChatId);
+
   return (
     <div className="app-shell">
       <aside className={`sidebar ${mobileSidebarOpen ? "open" : ""}`}>
@@ -145,6 +153,8 @@ export default function ChatPage() {
           onDeleteChat={deleteChat}
           onNewChat={createChat}
           onLogout={logout}
+          theme={theme}
+          onToggleTheme={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
         />
       </aside>
 
@@ -153,9 +163,14 @@ export default function ChatPage() {
           <button className="icon-button mobile-only" onClick={() => setMobileSidebarOpen(true)}>
             <Menu size={18} />
           </button>
-          <div className="brand-mark header-brand">
-            <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
-            <div className="topbar-title">Garo2</div>
+          <div className="header-copy">
+            <div className="brand-mark header-brand">
+              <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
+              <div className="topbar-title">{activeChat?.title || "Garo2"}</div>
+            </div>
+            <div className="topbar-subtitle">
+              {activeChatId ? "Continue your conversation" : "Fast, bilingual AI help for chat, images, and translation"}
+            </div>
           </div>
           <button className="icon-button" onClick={createChat} aria-label="New chat" title="New chat">
             <Plus size={18} />
@@ -174,6 +189,7 @@ export default function ChatPage() {
           setLanguageState={setLanguageState}
           onSend={sendMessage}
           disabled={pending}
+          theme={theme}
         />
       </main>
 
