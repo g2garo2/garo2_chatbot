@@ -29,7 +29,6 @@ export default function Sidebar({
         <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
         <div>
           <div className="sidebar-brand-title">Garo2</div>
-          <div className="sidebar-brand-subtitle">AI workspace</div>
         </div>
       </div>
 

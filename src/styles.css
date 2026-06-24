@@ -162,12 +162,6 @@ input {
   font-weight: 700;
 }
 
-.sidebar-brand-subtitle {
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  margin-top: 2px;
-}
-
 .primary-button,
 .secondary-button,
 .icon-button,
@@ -479,8 +473,17 @@ input {
   margin-left: max(0px, calc((100% - min(100%, 860px)) / 2));
 }
 
+.composer-note {
+  width: min(100%, 860px);
+  margin: 10px auto 0;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  text-align: center;
+}
+
 .mobile-only,
 .desktop-only,
+.desktop-only-block,
 .mobile-only-flex,
 .desktop-only-flex,
 .backdrop {
@@ -677,6 +680,10 @@ input {
 @media (min-width: 901px) {
   .desktop-only {
     display: flex;
+  }
+
+  .desktop-only-block {
+    display: block;
   }
 
   .desktop-only-flex {

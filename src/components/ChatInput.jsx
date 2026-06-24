@@ -56,6 +56,7 @@ export default function ChatInput({ onSend, disabled }) {
         </button>
       </div>
       {imageFile ? <div className="image-pill">{imageFile.name}</div> : null}
+      <p className="composer-note desktop-only-block">Garo2 can make mistakes. Check important info.</p>
     </form>
   );
 }
