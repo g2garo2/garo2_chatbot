@@ -87,7 +87,6 @@ select {
   align-items: center;
   justify-content: space-between;
   padding: 18px 20px;
-  border-bottom: 1px solid var(--border);
   background: rgba(9, 19, 29, 0.8);
   backdrop-filter: blur(12px);
 }
@@ -103,12 +102,28 @@ select {
   gap: 10px;
 }
 
+.header-brand {
+  flex: 1;
+}
+
 .brand-logo {
   width: 34px;
   height: 34px;
   border-radius: 10px;
   object-fit: cover;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 8px;
+}
+
+.sidebar-brand-title {
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .primary-button,
@@ -139,8 +154,13 @@ select {
   font-weight: 700;
 }
 
+.icon-only-button {
+  width: 52px;
+  justify-content: center;
+  padding: 12px 0;
+}
+
 .secondary-button {
-  margin-top: auto;
   justify-content: center;
 }
 
@@ -155,7 +175,7 @@ select {
 }
 
 .sidebar-user {
-  margin-top: auto;
+  margin-top: 4px;
 }
 
 .user-chip img {
@@ -338,6 +358,7 @@ select {
 }
 
 .mobile-only,
+.desktop-only,
 .backdrop {
   display: none;
 }
@@ -357,6 +378,10 @@ select {
 
   .mobile-only {
     display: grid;
+  }
+
+  .header-brand {
+    justify-content: center;
   }
 
   .backdrop {
@@ -388,5 +413,15 @@ select {
   .composer-row {
     grid-template-columns: 48px 1fr 48px;
     gap: 10px;
+  }
+}
+
+@media (min-width: 901px) {
+  .desktop-only {
+    display: flex;
+  }
+
+  .header-brand {
+    visibility: hidden;
   }
 }

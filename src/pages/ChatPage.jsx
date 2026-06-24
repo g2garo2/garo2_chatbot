@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Menu } from "lucide-react";
+import { Menu, Plus } from "lucide-react";
 import { chatApi, uploadApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
@@ -55,16 +55,10 @@ export default function ChatPage() {
   };
 
   const createChat = async () => {
-    try {
-      const chat = await chatApi.newChat();
-      setChats((prev) => [chat, ...prev]);
-      setActiveChatId(chat.id);
-      setMessages([]);
-      setMobileSidebarOpen(false);
-      setError("");
-    } catch (err) {
-      setError(err?.response?.data?.detail || "Could not create a new chat.");
-    }
+    setActiveChatId(null);
+    setMessages([]);
+    setMobileSidebarOpen(false);
+    setError("");
   };
 
   const deleteChat = async (chatId) => {
@@ -159,10 +153,13 @@ export default function ChatPage() {
           <button className="icon-button mobile-only" onClick={() => setMobileSidebarOpen(true)}>
             <Menu size={18} />
           </button>
-          <div className="brand-mark">
+          <div className="brand-mark header-brand">
             <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
             <div className="topbar-title">Garo2</div>
           </div>
+          <button className="icon-button" onClick={createChat} aria-label="New chat" title="New chat">
+            <Plus size={18} />
+          </button>
         </header>
 
         {error ? <div className="error-banner">{error}</div> : null}
