@@ -128,6 +128,10 @@ input {
   flex: 1;
 }
 
+.header-new-chat {
+  margin-left: auto;
+}
+
 .brand-logo {
   width: 34px;
   height: 34px;
@@ -583,14 +587,32 @@ input {
 @media (max-width: 640px) {
   .topbar {
     padding: 14px;
+    gap: 14px;
   }
 
   .model-selector {
     display: none;
   }
 
+  .mobile-only,
+  .header-new-chat {
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
   .chat-window {
     padding: 20px 12px 160px;
+  }
+
+  .message-row.user {
+    justify-content: flex-end;
+  }
+
+  .message-row.user .message-bubble {
+    width: auto;
+    max-width: 82%;
+    margin-left: auto;
   }
 
   .composer {
@@ -608,7 +630,7 @@ input {
     display: flex;
   }
 
-  .desktop-only-flex {
-    display: flex;
+  .topbar-title {
+    display: none;
   }
 }

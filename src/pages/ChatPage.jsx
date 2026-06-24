@@ -163,7 +163,7 @@ export default function ChatPage() {
               <option>Garo2 Fast</option>
             </select>
           </label>
-          <button className="icon-button desktop-only-flex" onClick={createChat} aria-label="New chat" title="New chat">
+          <button className="icon-button header-new-chat" onClick={createChat} aria-label="New chat" title="New chat">
             <Plus size={18} />
           </button>
         </header>

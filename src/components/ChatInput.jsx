@@ -40,7 +40,7 @@ export default function ChatInput({ onSend, disabled }) {
           ref={textareaRef}
           value={text}
           onChange={(event) => setText(event.target.value)}
-          placeholder="Message Garo2 in English or Garo..."
+          placeholder="Ask anything"
           rows={1}
           disabled={disabled}
           className="composer-textarea"

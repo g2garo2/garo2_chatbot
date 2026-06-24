@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { LogOut, MessageSquare, Plus, Search, Trash2 } from "lucide-react";
+import { LogOut, MessageSquare, Search, Trash2 } from "lucide-react";
 
 export default function Sidebar({
   user,
@@ -32,14 +32,6 @@ export default function Sidebar({
       </div>
 
       <div className="sidebar-header">
-        <button
-          className="primary-button icon-only-button mobile-only-flex"
-          onClick={onNewChat}
-          aria-label="New chat"
-          title="New chat"
-        >
-          <Plus size={16} />
-        </button>
         <label className="sidebar-search">
           <Search size={16} />
           <input
