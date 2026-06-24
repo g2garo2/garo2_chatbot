@@ -72,6 +72,12 @@ input {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
+.login-card {
+  text-align: center;
+  display: grid;
+  justify-items: center;
+}
+
 .login-card h1,
 .hero-card h2 {
   margin: 10px 0 12px;
