@@ -39,7 +39,8 @@
 
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   color: var(--text);
   background:
     radial-gradient(circle at top left, rgba(46, 181, 156, 0.18), transparent 30%),
@@ -83,7 +84,8 @@ input {
 
 .app-shell {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   color: var(--text);
 }
 
@@ -107,12 +109,13 @@ input {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
 }
 
 .topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 16px;
   padding: 18px 20px 14px;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
@@ -122,26 +125,6 @@ input {
 .topbar-title {
   font-size: 1.1rem;
   font-weight: 700;
-}
-
-.topbar-subtitle {
-  color: var(--text-muted);
-  font-size: 0.92rem;
-  margin-top: 4px;
-}
-
-.header-copy {
-  min-width: 0;
-  flex: 1;
-}
-
-.brand-mark {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-brand {
   flex: 1;
 }
 
@@ -318,6 +301,7 @@ input {
   overflow: auto;
   padding: 16px 18px 140px;
   scroll-behavior: smooth;
+  min-height: 0;
 }
 
 .chat-column {
@@ -434,23 +418,6 @@ input {
   background: linear-gradient(180deg, transparent 0%, rgba(9, 19, 29, 0.95) 24%);
 }
 
-.language-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 160px));
-  gap: 12px;
-  margin-bottom: 12px;
-  width: min(100%, 860px);
-  margin-inline: auto;
-}
-
-.language-grid label {
-  display: grid;
-  gap: 8px;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.language-grid select,
 .composer textarea {
   width: 100%;
   border: 1px solid var(--border);
@@ -618,10 +585,6 @@ input {
     padding: 14px;
   }
 
-  .topbar-subtitle {
-    display: none;
-  }
-
   .model-selector {
     display: none;
   }
@@ -632,10 +595,6 @@ input {
 
   .composer {
     padding: 12px;
-  }
-
-  .language-grid {
-    grid-template-columns: 1fr 1fr;
   }
 
   .composer-row {
@@ -651,9 +610,5 @@ input {
 
   .desktop-only-flex {
     display: flex;
-  }
-
-  .header-brand {
-    visibility: visible;
   }
 }

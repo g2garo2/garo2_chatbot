@@ -6,11 +6,6 @@ import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 
-const defaultLanguageState = {
-  inputLanguage: "english",
-  outputLanguage: "english",
-};
-
 export default function ChatPage() {
   const { user, logout } = useAuth();
   const [chats, setChats] = useState([]);
@@ -19,7 +14,6 @@ export default function ChatPage() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [languageState, setLanguageState] = useState(defaultLanguageState);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
   const [model, setModel] = useState("Garo2 Smart");
   const bottomRef = useRef(null);
@@ -117,16 +111,16 @@ export default function ChatPage() {
         role: "user",
         content: text,
         image_url: imageUrl,
-        input_language: languageState.inputLanguage,
-        output_language: languageState.outputLanguage,
+        input_language: "english",
+        output_language: "english",
       };
       setMessages((prev) => [...prev, optimisticUserMessage]);
 
       const response = await chatApi.sendMessage(chatId, {
         content: text,
         image_url: imageUrl,
-        input_language: languageState.inputLanguage,
-        output_language: languageState.outputLanguage,
+        input_language: "english",
+        output_language: "english",
       });
       setMessages((prev) => [
         ...prev.filter((message) => message.id !== optimisticUserMessage.id),
@@ -140,8 +134,6 @@ export default function ChatPage() {
       setPending(false);
     }
   };
-
-  const activeChat = chats.find((chat) => chat.id === activeChatId);
 
   return (
     <div className="app-shell">
@@ -162,15 +154,7 @@ export default function ChatPage() {
           <button className="icon-button mobile-only" onClick={() => setMobileSidebarOpen(true)}>
             <Menu size={18} />
           </button>
-          <div className="header-copy">
-            <div className="brand-mark header-brand">
-              <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
-              <div className="topbar-title">Garo2</div>
-            </div>
-            <div className="topbar-subtitle">
-              {activeChatId ? "Continue your conversation" : "Fast, bilingual AI help for chat, images, and translation"}
-            </div>
-          </div>
+          <div className="topbar-title">Garo2</div>
           <label className="model-selector">
             <span>Model</span>
             <select value={model} onChange={(event) => setModel(event.target.value)}>
@@ -192,8 +176,6 @@ export default function ChatPage() {
           onPromptSelect={(prompt) => sendMessage({ text: prompt, imageFile: null })}
         />
         <ChatInput
-          languageState={languageState}
-          setLanguageState={setLanguageState}
           onSend={sendMessage}
           disabled={pending}
         />

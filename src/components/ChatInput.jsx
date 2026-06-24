@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ImagePlus, Send } from "lucide-react";
-import LanguageSelector from "./LanguageSelector";
 
-export default function ChatInput({ languageState, setLanguageState, onSend, disabled }) {
+export default function ChatInput({ onSend, disabled }) {
   const [text, setText] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const textareaRef = useRef(null);
@@ -27,7 +26,6 @@ export default function ChatInput({ languageState, setLanguageState, onSend, dis
 
   return (
     <form className="composer" onSubmit={submit}>
-      <LanguageSelector languageState={languageState} setLanguageState={setLanguageState} />
       <div className="composer-row">
         <label className="upload-button">
           <ImagePlus size={18} />
