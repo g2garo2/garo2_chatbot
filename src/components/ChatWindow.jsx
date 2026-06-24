@@ -36,11 +36,13 @@ export default function ChatWindow({ messages, pending, bottomRef, onPromptSelec
 
   return (
     <section className="chat-window">
-      {messages.map((message) => (
-        <MessageBubble key={message.id} message={message} />
-      ))}
-      {pending ? <div className="typing-indicator"><span /><span /><span /></div> : null}
-      <div ref={bottomRef} />
+      <div className="chat-column">
+        {messages.map((message) => (
+          <MessageBubble key={message.id} message={message} />
+        ))}
+        {pending ? <div className="typing-indicator"><span /><span /><span /></div> : null}
+        <div ref={bottomRef} />
+      </div>
     </section>
   );
 }

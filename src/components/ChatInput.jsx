@@ -1,10 +1,21 @@
-import { useState } from "react";
-import { ImagePlus, Mic, Send } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ImagePlus, Send } from "lucide-react";
 import LanguageSelector from "./LanguageSelector";
 
 export default function ChatInput({ languageState, setLanguageState, onSend, disabled }) {
   const [text, setText] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (!textarea) {
+      return;
+    }
+
+    textarea.style.height = "0px";
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 180)}px`;
+  }, [text]);
 
   const submit = async (event) => {
     event.preventDefault();
@@ -28,6 +39,7 @@ export default function ChatInput({ languageState, setLanguageState, onSend, dis
           />
         </label>
         <textarea
+          ref={textareaRef}
           value={text}
           onChange={(event) => setText(event.target.value)}
           placeholder="Message Garo2 in English or Garo..."
@@ -41,9 +53,6 @@ export default function ChatInput({ languageState, setLanguageState, onSend, dis
             }
           }}
         />
-        <button className="icon-button composer-voice-button" type="button" title="Voice input coming soon">
-          <Mic size={18} />
-        </button>
         <button className="send-button" type="submit" disabled={disabled}>
           <Send size={18} />
         </button>

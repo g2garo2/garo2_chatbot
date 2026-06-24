@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { LogOut, MessageSquare, Moon, Plus, Search, Settings, Sun, Trash2 } from "lucide-react";
+import { LogOut, MessageSquare, Plus, Search, Trash2 } from "lucide-react";
 
 export default function Sidebar({
   user,
@@ -9,8 +9,6 @@ export default function Sidebar({
   onDeleteChat,
   onNewChat,
   onLogout,
-  theme,
-  onToggleTheme,
 }) {
   const [query, setQuery] = useState("");
 
@@ -34,7 +32,12 @@ export default function Sidebar({
       </div>
 
       <div className="sidebar-header">
-        <button className="primary-button icon-only-button" onClick={onNewChat} aria-label="New chat" title="New chat">
+        <button
+          className="primary-button icon-only-button mobile-only-flex"
+          onClick={onNewChat}
+          aria-label="New chat"
+          title="New chat"
+        >
           <Plus size={16} />
         </button>
         <label className="sidebar-search">
@@ -74,17 +77,6 @@ export default function Sidebar({
       </div>
 
       <div className="sidebar-footer">
-        <div className="sidebar-utility-row">
-          <button className="utility-button" onClick={onToggleTheme} type="button">
-            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-            {theme === "dark" ? "Light mode" : "Dark mode"}
-          </button>
-          <button className="utility-button" type="button">
-            <Settings size={16} />
-            Settings
-          </button>
-        </div>
-
         <button className="secondary-button" onClick={onLogout}>
           <LogOut size={16} />
           Logout

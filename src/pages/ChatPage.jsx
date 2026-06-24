@@ -21,6 +21,7 @@ export default function ChatPage() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [languageState, setLanguageState] = useState(defaultLanguageState);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
+  const [model, setModel] = useState("Garo2 Smart");
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -153,8 +154,6 @@ export default function ChatPage() {
           onDeleteChat={deleteChat}
           onNewChat={createChat}
           onLogout={logout}
-          theme={theme}
-          onToggleTheme={() => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"))}
         />
       </aside>
 
@@ -166,13 +165,21 @@ export default function ChatPage() {
           <div className="header-copy">
             <div className="brand-mark header-brand">
               <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
-              <div className="topbar-title">{activeChat?.title || "Garo2"}</div>
+              <div className="topbar-title">Garo2</div>
             </div>
             <div className="topbar-subtitle">
               {activeChatId ? "Continue your conversation" : "Fast, bilingual AI help for chat, images, and translation"}
             </div>
           </div>
-          <button className="icon-button" onClick={createChat} aria-label="New chat" title="New chat">
+          <label className="model-selector">
+            <span>Model</span>
+            <select value={model} onChange={(event) => setModel(event.target.value)}>
+              <option>Garo2 Smart</option>
+              <option>Garo2 Vision</option>
+              <option>Garo2 Fast</option>
+            </select>
+          </label>
+          <button className="icon-button desktop-only-flex" onClick={createChat} aria-label="New chat" title="New chat">
             <Plus size={18} />
           </button>
         </header>
@@ -189,7 +196,6 @@ export default function ChatPage() {
           setLanguageState={setLanguageState}
           onSend={sendMessage}
           disabled={pending}
-          theme={theme}
         />
       </main>
 

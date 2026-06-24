@@ -132,6 +132,7 @@ input {
 
 .header-copy {
   min-width: 0;
+  flex: 1;
 }
 
 .brand-mark {
@@ -186,7 +187,6 @@ input {
 
 .primary-button,
 .secondary-button,
-.utility-button,
 .chat-row {
   display: flex;
   align-items: center;
@@ -209,10 +209,6 @@ input {
 
 .secondary-button {
   justify-content: center;
-}
-
-.utility-button {
-  justify-content: flex-start;
 }
 
 .sidebar-search {
@@ -250,11 +246,6 @@ input {
   margin-top: auto;
   display: grid;
   gap: 12px;
-}
-
-.sidebar-utility-row {
-  display: grid;
-  gap: 10px;
 }
 
 .user-chip img {
@@ -303,11 +294,35 @@ input {
   font-size: 0.92rem;
 }
 
+.model-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--panel);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.model-selector select {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+}
+
 .chat-window {
   flex: 1;
   overflow: auto;
   padding: 16px 18px 140px;
   scroll-behavior: smooth;
+}
+
+.chat-column {
+  width: min(100%, 860px);
+  margin: 0 auto;
 }
 
 .error-banner {
@@ -424,6 +439,8 @@ input {
   grid-template-columns: repeat(2, minmax(0, 160px));
   gap: 12px;
   margin-bottom: 12px;
+  width: min(100%, 860px);
+  margin-inline: auto;
 }
 
 .language-grid label {
@@ -445,9 +462,11 @@ input {
 
 .composer-row {
   display: grid;
-  grid-template-columns: 52px 1fr 52px 52px;
+  grid-template-columns: 52px 1fr 52px;
   gap: 12px;
   align-items: end;
+  width: min(100%, 860px);
+  margin: 0 auto;
 }
 
 .upload-button,
@@ -460,14 +479,10 @@ input {
 }
 
 .composer textarea {
-  resize: vertical;
+  resize: none;
   min-height: 52px;
   max-height: 180px;
   line-height: 1.5;
-}
-
-.composer-voice-button {
-  opacity: 0.8;
 }
 
 .image-pill {
@@ -477,10 +492,13 @@ input {
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--text-muted);
+  margin-left: max(0px, calc((100% - min(100%, 860px)) / 2));
 }
 
 .mobile-only,
 .desktop-only,
+.mobile-only-flex,
+.desktop-only-flex,
 .backdrop {
   display: none;
 }
@@ -578,6 +596,10 @@ input {
     display: grid;
   }
 
+  .mobile-only-flex {
+    display: flex;
+  }
+
   .header-brand {
     visibility: visible;
   }
@@ -600,6 +622,10 @@ input {
     display: none;
   }
 
+  .model-selector {
+    display: none;
+  }
+
   .chat-window {
     padding: 20px 12px 160px;
   }
@@ -613,7 +639,7 @@ input {
   }
 
   .composer-row {
-    grid-template-columns: 48px 1fr 48px 48px;
+    grid-template-columns: 48px 1fr 48px;
     gap: 10px;
   }
 }
@@ -623,7 +649,11 @@ input {
     display: flex;
   }
 
+  .desktop-only-flex {
+    display: flex;
+  }
+
   .header-brand {
-    visibility: hidden;
+    visibility: visible;
   }
 }
