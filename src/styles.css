@@ -78,6 +78,16 @@ input {
   font-size: clamp(2rem, 6vw, 3.8rem);
 }
 
+.login-logo {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 24px;
+  display: block;
+  margin: 0 auto 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+}
+
 .eyebrow,
 .user-chip span {
   color: var(--text-muted);

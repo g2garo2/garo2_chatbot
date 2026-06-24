@@ -15,11 +15,8 @@ export default function LoginPage() {
   return (
     <div className="login-shell">
       <div className="login-card">
-        <div className="eyebrow">Bilingual AI assistant</div>
+        <img src="/g2-logo.jpeg" alt="Garo2 logo" className="login-logo" />
         <h1>Garo2</h1>
-        <p>
-          Chat in English and Garo, upload images, and continue your conversations from any device.
-        </p>
         <GoogleLogin onSuccess={handleSuccess} onError={() => {}} />
       </div>
     </div>
