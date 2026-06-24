@@ -6,6 +6,10 @@ import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
 
+function visibleChats(history) {
+  return history.filter((chat) => chat.title !== "New Chat");
+}
+
 export default function ChatPage() {
   const { user, logout } = useAuth();
   const [chats, setChats] = useState([]);
@@ -34,7 +38,7 @@ export default function ChatPage() {
   const loadHistory = async () => {
     try {
       const history = await chatApi.getHistory();
-      setChats(history);
+      setChats(visibleChats(history));
     } catch (err) {
       setError(err?.response?.data?.detail || "Could not load chat history.");
     }
@@ -80,7 +84,7 @@ export default function ChatPage() {
 
   const refreshHistory = async (preferredChatId) => {
     const history = await chatApi.getHistory();
-    setChats(history);
+    setChats(visibleChats(history));
     if (preferredChatId) {
       setActiveChatId(preferredChatId);
     }
