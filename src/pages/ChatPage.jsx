@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Menu, Plus, LogOut } from "lucide-react";
+import { Menu } from "lucide-react";
 import { chatApi, uploadApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
@@ -159,22 +159,19 @@ export default function ChatPage() {
           <button className="icon-button mobile-only" onClick={() => setMobileSidebarOpen(true)}>
             <Menu size={18} />
           </button>
-          <div>
+          <div className="brand-mark">
+            <img src="/g2-logo.jpeg" alt="Garo2 logo" className="brand-logo" />
             <div className="topbar-title">Garo2</div>
-            <div className="topbar-subtitle">English and Garo AI conversations</div>
-          </div>
-          <div className="topbar-actions">
-            <button className="icon-button" onClick={createChat}>
-              <Plus size={18} />
-            </button>
-            <button className="icon-button" onClick={logout}>
-              <LogOut size={18} />
-            </button>
           </div>
         </header>
 
         {error ? <div className="error-banner">{error}</div> : null}
-        <ChatWindow messages={messages} pending={pending} bottomRef={bottomRef} />
+        <ChatWindow
+          messages={messages}
+          pending={pending}
+          bottomRef={bottomRef}
+          onPromptSelect={(prompt) => sendMessage({ text: prompt, imageFile: null })}
+        />
         <ChatInput
           languageState={languageState}
           setLanguageState={setLanguageState}

@@ -10,14 +10,6 @@ export default function Sidebar({ user, chats, activeChatId, onSelectChat, onDel
         </button>
       </div>
 
-      <div className="user-chip">
-        {user?.avatar ? <img src={user.avatar} alt={user.name} /> : null}
-        <div>
-          <strong>{user?.name}</strong>
-          <span>{user?.email}</span>
-        </div>
-      </div>
-
       <div className="chat-list">
         {chats.map((chat) => (
           <button
@@ -40,6 +32,11 @@ export default function Sidebar({ user, chats, activeChatId, onSelectChat, onDel
             </span>
           </button>
         ))}
+      </div>
+
+      <div className="user-chip sidebar-user">
+        {user?.avatar ? <img src={user.avatar} alt={user.name} /> : null}
+        <strong>{user?.name}</strong>
       </div>
 
       <button className="secondary-button" onClick={onLogout}>

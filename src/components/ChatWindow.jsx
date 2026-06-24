@@ -1,12 +1,30 @@
 import MessageBubble from "./MessageBubble";
 
-export default function ChatWindow({ messages, pending, bottomRef }) {
+const starterPrompts = [
+  "Translate this message into Garo.",
+  "Write a short welcome message in English and Garo.",
+  "Explain today's top priority in simple English.",
+  "Help me answer this image in Garo.",
+];
+
+export default function ChatWindow({ messages, pending, bottomRef, onPromptSelect }) {
   if (!messages.length) {
     return (
       <section className="chat-window empty-state">
         <div className="hero-card">
-          <h2>Start a conversation</h2>
-          <p>Ask in English or Garo, choose the output language, and optionally attach an image.</p>
+          <h2>What would you like to ask?</h2>
+          <div className="prompt-grid">
+            {starterPrompts.map((prompt) => (
+              <button
+                key={prompt}
+                className="prompt-card"
+                onClick={() => onPromptSelect(prompt)}
+                type="button"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
     );
