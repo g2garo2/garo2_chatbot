@@ -578,10 +578,10 @@ input {
   gap: 10px;
   width: 100%;
   margin: 0;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  padding: 4px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--text-muted);
   line-height: 1.55;
   text-align: left;
@@ -590,7 +590,6 @@ input {
 
 .mobile-prompt-item:hover {
   color: var(--text);
-  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
 }
 
 .mobile-prompt-item:disabled {
