@@ -20,7 +20,9 @@ export default function ChatPage() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
   const [selectedLanguage, setSelectedLanguage] = useState("english");
+  const [copiedMessageId, setCopiedMessageId] = useState(null);
   const bottomRef = useRef(null);
+  const copyTimerRef = useRef(null);
 
   useEffect(() => {
     loadHistory();
@@ -34,6 +36,14 @@ export default function ChatPage() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, pending]);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
+    };
+  }, []);
 
   const loadHistory = async () => {
     try {
@@ -90,7 +100,7 @@ export default function ChatPage() {
     }
   };
 
-  const sendMessage = async ({ text, imageFile }) => {
+  const submitMessage = async ({ text, imageFile = null, imageUrl = null }) => {
     setPending(true);
     setError("");
     try {
@@ -101,17 +111,17 @@ export default function ChatPage() {
         setActiveChatId(chat.id);
       }
 
-      let imageUrl = null;
+      let resolvedImageUrl = imageUrl;
       if (imageFile) {
         const upload = await uploadApi.uploadImage(imageFile);
-        imageUrl = upload.image_url;
+        resolvedImageUrl = upload.image_url;
       }
 
       const optimisticUserMessage = {
         id: Date.now(),
         role: "user",
         content: text,
-        image_url: imageUrl,
+        image_url: resolvedImageUrl,
         input_language: "english",
         output_language: selectedLanguage,
       };
@@ -119,7 +129,7 @@ export default function ChatPage() {
 
       const response = await chatApi.sendMessage(chatId, {
         content: text,
-        image_url: imageUrl,
+        image_url: resolvedImageUrl,
         input_language: "english",
         output_language: selectedLanguage,
       });
@@ -134,6 +144,51 @@ export default function ChatPage() {
     } finally {
       setPending(false);
     }
+  };
+
+  const sendMessage = async ({ text, imageFile }) => {
+    await submitMessage({ text, imageFile });
+  };
+
+  const handleCopyMessage = async (message) => {
+    try {
+      await navigator.clipboard.writeText(message.content || "");
+      const messageId = String(message.id);
+      setCopiedMessageId(messageId);
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
+      copyTimerRef.current = setTimeout(() => setCopiedMessageId(null), 1800);
+    } catch (err) {
+      setError("Could not copy the response.");
+    }
+  };
+
+  const handleRegenerateMessage = async (assistantMessage) => {
+    if (pending) {
+      return;
+    }
+
+    const assistantIndex = messages.findIndex((message) => message.id === assistantMessage.id);
+    if (assistantIndex <= 0) {
+      setError("Could not find the prompt for this response.");
+      return;
+    }
+
+    const promptMessage = [...messages]
+      .slice(0, assistantIndex)
+      .reverse()
+      .find((message) => message.role === "user");
+
+    if (!promptMessage) {
+      setError("Could not find the prompt for this response.");
+      return;
+    }
+
+    await submitMessage({
+      text: promptMessage.content,
+      imageUrl: promptMessage.image_url || null,
+    });
   };
 
   return (
@@ -175,10 +230,14 @@ export default function ChatPage() {
           messages={messages}
           pending={pending}
           bottomRef={bottomRef}
+          onCopyMessage={handleCopyMessage}
+          onRegenerateMessage={handleRegenerateMessage}
+          copiedMessageId={copiedMessageId}
         />
         <ChatInput
           onSend={sendMessage}
           disabled={pending}
+          showMobilePrompts={!messages.length}
         />
       </main>
 

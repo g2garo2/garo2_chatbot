@@ -1,6 +1,6 @@
 import MessageBubble from "./MessageBubble";
 
-export default function ChatWindow({ messages, pending, bottomRef }) {
+export default function ChatWindow({ messages, pending, bottomRef, onCopyMessage, onRegenerateMessage, copiedMessageId }) {
   if (!messages.length) {
     return (
       <section className="chat-window empty-state">
@@ -14,9 +14,19 @@ export default function ChatWindow({ messages, pending, bottomRef }) {
   return (
     <section className="chat-window">
       <div className="chat-column">
-        {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
-        ))}
+        {messages.map((message) => {
+          const messageId = String(message.id);
+
+          return (
+            <MessageBubble
+              key={message.id}
+              message={message}
+              onCopy={onCopyMessage}
+              onRegenerate={onRegenerateMessage}
+              copied={copiedMessageId === messageId}
+            />
+          );
+        })}
         {pending ? <div className="typing-indicator"><span /><span /><span /></div> : null}
         <div ref={bottomRef} />
       </div>
