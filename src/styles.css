@@ -375,6 +375,11 @@ input {
   font-weight: 600;
 }
 
+.hero-copy-greeting {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 .message-row {
   display: flex;
   margin-bottom: 18px;
@@ -556,17 +561,39 @@ input {
 .mobile-prompt-list {
   width: min(100%, 860px);
   margin: 0 auto 14px;
+  display: grid;
+  gap: 10px;
   text-align: left;
 }
 
 .mobile-prompt-item {
-  margin: 0 0 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
   color: var(--text-muted);
   line-height: 1.55;
+  text-align: left;
+  cursor: pointer;
 }
 
-.mobile-prompt-item:last-child {
-  margin-bottom: 0;
+.mobile-prompt-item:hover {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+
+.mobile-prompt-item:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mobile-prompt-item span {
+  flex: 1;
 }
 
 .message-bubble p,
@@ -722,6 +749,12 @@ input {
 
   .empty-state .hero-card {
     display: none;
+  }
+
+  .empty-state-mobile-greeting {
+    width: min(100%, 300px);
+    margin: 18vh auto 0;
+    text-align: center;
   }
 
   .message-row.user {

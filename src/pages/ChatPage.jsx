@@ -233,6 +233,7 @@ export default function ChatPage() {
           onCopyMessage={handleCopyMessage}
           onRegenerateMessage={handleRegenerateMessage}
           copiedMessageId={copiedMessageId}
+          userName={user?.name || "there"}
         />
         <ChatInput
           onSend={sendMessage}
