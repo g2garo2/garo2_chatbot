@@ -27,10 +27,7 @@ export default function ChatWindow({
   if (!messages.length) {
     return (
       <section className="chat-window empty-state">
-        <div className="hero-card">
-          <p className="hero-copy hero-copy-strong hero-copy-greeting">{greetingMessage}</p>
-        </div>
-        <p className="hero-copy hero-copy-greeting mobile-only-block empty-state-mobile-greeting">{greetingMessage}</p>
+        <p className="hero-copy hero-copy-strong hero-copy-greeting empty-state-greeting">{greetingMessage}</p>
       </section>
     );
   }

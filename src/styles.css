@@ -363,6 +363,12 @@ input {
   place-items: center;
 }
 
+.empty-state-greeting {
+  width: min(100%, 460px);
+  margin: 0 auto;
+  text-align: center;
+}
+
 .hero-copy {
   color: var(--text-muted);
   line-height: 1.7;
@@ -747,14 +753,9 @@ input {
     display: block;
   }
 
-  .empty-state .hero-card {
-    display: none;
-  }
-
-  .empty-state-mobile-greeting {
+  .empty-state-greeting {
     width: min(100%, 300px);
     margin: 18vh auto 0;
-    text-align: center;
   }
 
   .message-row.user {
