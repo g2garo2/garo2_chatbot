@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, Plus } from "lucide-react";
-import { chatApi, uploadApi } from "../api/client";
+import { chatApi, getApiErrorMessage, uploadApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
+import PlanBadge from "../components/PlanBadge";
+import UpgradePrompt from "../components/UpgradePrompt";
 
 function visibleChats(history) {
   return history.filter((chat) => chat.title !== "New Chat");
@@ -50,7 +53,7 @@ export default function ChatPage() {
       const history = await chatApi.getHistory();
       setChats(visibleChats(history));
     } catch (err) {
-      setError(err?.response?.data?.detail || "Could not load chat history.");
+      setError(getApiErrorMessage(err, "Could not load chat history."));
     }
   };
 
@@ -62,7 +65,7 @@ export default function ChatPage() {
       setMobileSidebarOpen(false);
       setError("");
     } catch (err) {
-      setError(err?.response?.data?.detail || "Could not open this chat.");
+      setError(getApiErrorMessage(err, "Could not open this chat."));
     }
   };
 
@@ -88,7 +91,7 @@ export default function ChatPage() {
       }
       setError("");
     } catch (err) {
-      setError(err?.response?.data?.detail || "Could not delete this chat.");
+      setError(getApiErrorMessage(err, "Could not delete this chat."));
     }
   };
 
@@ -140,7 +143,7 @@ export default function ChatPage() {
       ]);
       await refreshHistory(chatId);
     } catch (err) {
-      setError(err?.response?.data?.detail || "Could not send the message.");
+      setError(getApiErrorMessage(err, "Could not send the message."));
     } finally {
       setPending(false);
     }
@@ -213,6 +216,12 @@ export default function ChatPage() {
             <Menu size={18} />
           </button>
           <div className="topbar-title">Garo2</div>
+          <div className="topbar-plan desktop-only-flex">
+            <PlanBadge plan={user?.plan || "free"} />
+            <Link to="/usage" className="topbar-link-button">
+              Usage
+            </Link>
+          </div>
           <label className="language-selector desktop-only-flex">
             <span>Language</span>
             <select value={selectedLanguage} onChange={(event) => setSelectedLanguage(event.target.value)}>
@@ -225,7 +234,12 @@ export default function ChatPage() {
           </button>
         </header>
 
-        {error ? <div className="error-banner">{error}</div> : null}
+        {error ? (
+          <div className="error-banner">
+            {error}
+            {error.includes("Upgrade your plan to continue.") ? <UpgradePrompt compact /> : null}
+          </div>
+        ) : null}
         <ChatWindow
           messages={messages}
           pending={pending}

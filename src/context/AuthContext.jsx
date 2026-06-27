@@ -7,6 +7,12 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const refreshUser = async () => {
+    const me = await authApi.getMe();
+    setUser(me);
+    return me;
+  };
+
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem("garo2_token");
@@ -15,8 +21,7 @@ export function AuthProvider({ children }) {
         return;
       }
       try {
-        const me = await authApi.getMe();
-        setUser(me);
+        await refreshUser();
       } catch {
         localStorage.removeItem("garo2_token");
         setUser(null);
@@ -39,7 +44,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

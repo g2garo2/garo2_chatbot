@@ -38,6 +38,17 @@ export const authApi = {
   },
 };
 
+export const meApi = {
+  getUsage: async () => {
+    const { data } = await api.get("/me/usage");
+    return data;
+  },
+  getSubscription: async () => {
+    const { data } = await api.get("/me/subscription");
+    return data;
+  },
+};
+
 export const chatApi = {
   newChat: async () => {
     const { data } = await api.post("/chat/new", {});
@@ -61,6 +72,13 @@ export const chatApi = {
   },
 };
 
+export const translateApi = {
+  translate: async (payload) => {
+    const { data } = await api.post("/translate", payload);
+    return data;
+  },
+};
+
 export const uploadApi = {
   uploadImage: async (file) => {
     const formData = new FormData();
@@ -73,5 +91,46 @@ export const uploadApi = {
     return data;
   },
 };
+
+export const imageApi = {
+  analyze: async (payload) => {
+    const { data } = await api.post("/image/analyze", payload);
+    return data;
+  },
+  generate: async (payload) => {
+    const { data } = await api.post("/image/generate", payload);
+    return data;
+  },
+};
+
+export const billingApi = {
+  createOrder: async (payload) => {
+    const { data } = await api.post("/create-order", payload);
+    return data;
+  },
+  verifyPayment: async (payload) => {
+    const { data } = await api.post("/verify-payment", payload);
+    return data;
+  },
+  createSubscription: async (plan) => {
+    const { data } = await api.post("/billing/create-subscription", { plan });
+    return data;
+  },
+  verifySubscription: async (payload) => {
+    const { data } = await api.post("/billing/verify-subscription", payload);
+    return data;
+  },
+};
+
+export function getApiErrorMessage(error, fallback = "Something went wrong.") {
+  const detail = error?.response?.data?.detail;
+  if (typeof detail === "string" && detail.trim()) {
+    return detail;
+  }
+  if (typeof error?.message === "string" && error.message.trim()) {
+    return error.message;
+  }
+  return fallback;
+}
 
 export default api;

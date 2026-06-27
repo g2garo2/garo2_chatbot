@@ -818,3 +818,247 @@ input {
     display: none;
   }
 }
+
+.sidebar-nav-links {
+  display: grid;
+  gap: 10px;
+}
+
+.sidebar-link-button {
+  text-decoration: none;
+}
+
+.user-chip-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.topbar-plan {
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.success-banner {
+  margin: 14px 16px 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(46, 181, 156, 0.28);
+  background: rgba(46, 181, 156, 0.12);
+  color: var(--text);
+}
+
+.settings-banner {
+  margin: 0;
+}
+
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--panel-strong) 80%, transparent);
+}
+
+.plan-free {
+  color: var(--text-muted);
+}
+
+.plan-plus {
+  color: #7ee4d3;
+}
+
+.plan-pro {
+  color: #f2d88f;
+}
+
+.plan-ultra {
+  color: #ffb1b1;
+}
+
+.settings-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px;
+}
+
+.settings-header {
+  width: min(100%, 1120px);
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-header h1 {
+  margin: 4px 0 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.section-eyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pricing-grid {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pricing-card,
+.settings-card {
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
+}
+
+.pricing-card.current {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.pricing-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.pricing-card h2 {
+  margin: 4px 0 0;
+  font-size: 2rem;
+}
+
+.pricing-metrics {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.usage-summary-card {
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.usage-summary-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.usage-summary-header h2 {
+  margin: 4px 0 0;
+  font-size: 2rem;
+}
+
+.usage-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.usage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+}
+
+.usage-row div {
+  display: grid;
+  gap: 4px;
+}
+
+.usage-row span,
+.usage-row em {
+  color: var(--text-muted);
+  font-style: normal;
+}
+
+.usage-values {
+  justify-items: end;
+}
+
+.upgrade-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.upgrade-prompt p {
+  margin: 0;
+}
+
+.upgrade-prompt.compact {
+  padding-top: 10px;
+  border-top: 1px solid var(--danger-border);
+}
+
+@media (max-width: 960px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-header,
+  .usage-summary-header,
+  .usage-row,
+  .upgrade-prompt {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .usage-values {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .settings-shell {
+    padding: 18px 14px;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}

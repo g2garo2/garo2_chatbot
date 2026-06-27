@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
-import { LogOut, MessageSquare, Search, Trash2 } from "lucide-react";
+import { CreditCard, Gauge, LogOut, MessageSquare, Search, Trash2 } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import PlanBadge from "./PlanBadge";
 
 export default function Sidebar({
   user,
@@ -51,6 +53,17 @@ export default function Sidebar({
         </label>
       </div>
 
+      <div className="sidebar-nav-links">
+        <NavLink to="/usage" className="secondary-button sidebar-link-button">
+          <Gauge size={16} />
+          Usage
+        </NavLink>
+        <NavLink to="/pricing" className="secondary-button sidebar-link-button">
+          <CreditCard size={16} />
+          Pricing
+        </NavLink>
+      </div>
+
       <div className="chat-list">
         {filteredChats.map((chat) => (
           <button
@@ -84,7 +97,10 @@ export default function Sidebar({
 
         <div className="user-chip sidebar-user">
           {user?.avatar ? <img src={user.avatar} alt={user.name} /> : null}
-          <strong>{user?.name}</strong>
+          <div className="user-chip-copy">
+            <strong>{user?.name}</strong>
+            <PlanBadge plan={user?.plan || "free"} />
+          </div>
         </div>
       </div>
     </div>

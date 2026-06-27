@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
+import PricingPage from "./pages/PricingPage";
+import UsagePage from "./pages/UsagePage";
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -40,6 +42,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/pricing"
+          element={
+            <ProtectedRoute>
+              <PricingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/usage"
+          element={
+            <ProtectedRoute>
+              <UsagePage />
             </ProtectedRoute>
           }
         />
