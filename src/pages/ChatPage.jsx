@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Plus } from "lucide-react";
-import { chatApi, getApiErrorMessage, uploadApi } from "../api/client";
+import { chatApi, getApiErrorMessage, imageApi, uploadApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
@@ -153,6 +153,47 @@ export default function ChatPage() {
     await submitMessage({ text, imageFile });
   };
 
+  const handleGenerateImage = async ({ prompt }) => {
+    setPending(true);
+    setError("");
+    try {
+      const optimisticUserMessage = {
+        id: Date.now(),
+        role: "user",
+        content: prompt,
+        image_url: null,
+        input_language: "english",
+        output_language: selectedLanguage,
+      };
+      setMessages((prev) => [...prev, optimisticUserMessage]);
+
+      const generated = await imageApi.generate({ prompt });
+      if (!generated?.image_base64 || !generated?.mime_type) {
+        throw new Error(generated?.text || "No image was returned.");
+      }
+
+      const assistantMessage = {
+        id: optimisticUserMessage.id + 1,
+        role: "assistant",
+        content: generated.text?.trim() || "Image generated successfully.",
+        image_url: null,
+        input_language: "english",
+        output_language: selectedLanguage,
+        generated_image_url: `data:${generated.mime_type};base64,${generated.image_base64}`,
+      };
+
+      setMessages((prev) => [
+        ...prev.filter((message) => message.id !== optimisticUserMessage.id),
+        optimisticUserMessage,
+        assistantMessage,
+      ]);
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not generate the image."));
+    } finally {
+      setPending(false);
+    }
+  };
+
   const handleCopyMessage = async (message) => {
     try {
       await navigator.clipboard.writeText(message.content || "");
@@ -251,6 +292,8 @@ export default function ChatPage() {
         />
         <ChatInput
           onSend={sendMessage}
+          onGenerateImage={handleGenerateImage}
+          onError={setError}
           disabled={pending}
           showMobilePrompts={!messages.length}
         />
