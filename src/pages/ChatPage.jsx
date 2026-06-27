@@ -151,7 +151,8 @@ export default function ChatPage() {
     try {
       const sourceLanguage = translationMode === "garo_to_english" ? "garo" : "english";
       const targetLanguage = translationMode === "garo_to_english" ? "english" : "garo";
-      const modeLabel = translationMode === "garo_to_english" ? "Garo to English" : "English to Garo";
+      const modeLabel =
+        translationMode === "garo_to_english" ? "Translate Garo to English" : "Translate English to Garo";
 
       const optimisticUserMessage = {
         id: Date.now(),

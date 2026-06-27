@@ -68,9 +68,9 @@ export default function ChatInput({
   };
   const translationLabel =
     translationMode === "english_to_garo"
-      ? "English to Garo"
+      ? "Translate English to Garo"
       : translationMode === "garo_to_english"
-        ? "Garo to English"
+        ? "Translate Garo to English"
         : "";
 
   return (
@@ -119,7 +119,7 @@ export default function ChatInput({
                 }}
               >
                 <Languages size={16} />
-                <span>English to Garo</span>
+                <span>Translate English to Garo</span>
               </button>
               <button
                 type="button"
@@ -131,7 +131,7 @@ export default function ChatInput({
                 }}
               >
                 <Languages size={16} />
-                <span>Garo to English</span>
+                <span>Translate Garo to English</span>
               </button>
               {mode === "translate" ? (
                 <button
