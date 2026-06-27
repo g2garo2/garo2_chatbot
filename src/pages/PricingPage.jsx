@@ -11,7 +11,7 @@ const plans = [
     price: "Rs 0",
     chat: "Unlimited with safe backend rate limit",
     translation: "8/day",
-    provider: "Chat uses OpenRouter free model. Translation uses Gemini.",
+    provider: "English chat uses OpenRouter free model. Garo chat requires a paid plan. Translation uses Gemini.",
   },
   {
     key: "plus",

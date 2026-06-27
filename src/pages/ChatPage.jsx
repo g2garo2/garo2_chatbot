@@ -9,6 +9,8 @@ import ChatInput from "../components/ChatInput";
 import PlanBadge from "../components/PlanBadge";
 import UpgradePrompt from "../components/UpgradePrompt";
 
+const GARO_CHAT_UPGRADE_MESSAGE = "Garo chat is available on paid plans. Upgrade your plan to continue.";
+
 function visibleChats(history) {
   return history.filter((chat) => chat.title !== "New Chat");
 }
@@ -26,6 +28,11 @@ export default function ChatPage() {
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   const bottomRef = useRef(null);
   const copyTimerRef = useRef(null);
+  const currentPlan = String(user?.plan || "free").toLowerCase();
+  const isFreePlan = currentPlan === "free";
+  const upgradePromptMessage = error.includes("Upgrade your plan to continue.")
+    ? error
+    : "You have reached your limit for this plan. Upgrade your plan to continue.";
 
   useEffect(() => {
     loadHistory();
@@ -103,7 +110,24 @@ export default function ChatPage() {
     }
   };
 
+  const handleLanguageChange = (nextLanguage) => {
+    if (nextLanguage === "garo" && isFreePlan) {
+      setSelectedLanguage("english");
+      setError(GARO_CHAT_UPGRADE_MESSAGE);
+      setMobileSidebarOpen(false);
+      return;
+    }
+
+    setSelectedLanguage(nextLanguage);
+    setError("");
+  };
+
   const submitMessage = async ({ text }) => {
+    if (selectedLanguage === "garo" && isFreePlan) {
+      setError(GARO_CHAT_UPGRADE_MESSAGE);
+      return;
+    }
+
     setPending(true);
     setError("");
     try {
@@ -247,7 +271,8 @@ export default function ChatPage() {
           onNewChat={createChat}
           onLogout={logout}
           selectedLanguage={selectedLanguage}
-          onLanguageChange={setSelectedLanguage}
+          onLanguageChange={handleLanguageChange}
+          isFreePlan={isFreePlan}
         />
       </aside>
 
@@ -258,16 +283,16 @@ export default function ChatPage() {
           </button>
           <div className="topbar-title">Garo2</div>
           <div className="topbar-plan desktop-only-flex">
-            <PlanBadge plan={user?.plan || "free"} />
+            <PlanBadge plan={currentPlan} />
             <Link to="/usage" className="topbar-link-button">
               Usage
             </Link>
           </div>
           <label className="language-selector desktop-only-flex">
             <span>Language</span>
-            <select value={selectedLanguage} onChange={(event) => setSelectedLanguage(event.target.value)}>
+            <select value={selectedLanguage} onChange={(event) => handleLanguageChange(event.target.value)}>
               <option value="english">English</option>
-              <option value="garo">Garo</option>
+              <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
             </select>
           </label>
           <button className="icon-button header-new-chat" onClick={createChat} aria-label="New chat" title="New chat">
@@ -278,7 +303,9 @@ export default function ChatPage() {
         {error ? (
           <div className="error-banner">
             {error}
-            {error.includes("Upgrade your plan to continue.") ? <UpgradePrompt compact /> : null}
+            {error.includes("Upgrade your plan to continue.") ? (
+              <UpgradePrompt compact message={upgradePromptMessage} />
+            ) : null}
           </div>
         ) : null}
         <ChatWindow

@@ -13,6 +13,7 @@ export default function Sidebar({
   onLogout,
   selectedLanguage,
   onLanguageChange,
+  isFreePlan,
 }) {
   const [query, setQuery] = useState("");
 
@@ -39,7 +40,7 @@ export default function Sidebar({
           <span>Language</span>
           <select value={selectedLanguage} onChange={(event) => onLanguageChange(event.target.value)}>
             <option value="english">English</option>
-            <option value="garo">Garo</option>
+            <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
           </select>
         </label>
         <label className="sidebar-search">
