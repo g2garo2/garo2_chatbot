@@ -145,33 +145,39 @@ export default function ChatPage() {
     await submitMessage({ text });
   };
 
-  const handleTranslate = async ({ text }) => {
+  const handleTranslate = async ({ text, translationMode }) => {
     setPending(true);
     setError("");
     try {
+      const sourceLanguage = translationMode === "garo_to_english" ? "garo" : "english";
+      const targetLanguage = translationMode === "garo_to_english" ? "english" : "garo";
+      const modeLabel = translationMode === "garo_to_english" ? "Garo to English" : "English to Garo";
+
       const optimisticUserMessage = {
         id: Date.now(),
         role: "user",
         content: text,
-        input_language: "auto",
-        output_language: selectedLanguage,
+        input_language: sourceLanguage,
+        output_language: targetLanguage,
         message_kind: "translate",
+        translation_mode: translationMode,
       };
       setMessages((prev) => [...prev, optimisticUserMessage]);
 
       const response = await translateApi.translate({
         text,
-        source_language: "auto",
-        target_language: selectedLanguage,
+        source_language: sourceLanguage,
+        target_language: targetLanguage,
       });
 
       const assistantMessage = {
         id: optimisticUserMessage.id + 1,
         role: "assistant",
-        content: response.translated_text,
-        input_language: "auto",
-        output_language: selectedLanguage,
+        content: `${modeLabel}\n\n${response.translated_text}`,
+        input_language: sourceLanguage,
+        output_language: targetLanguage,
         message_kind: "translate",
+        translation_mode: translationMode,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -218,7 +224,10 @@ export default function ChatPage() {
     }
 
     if (assistantMessage.message_kind === "translate" || promptMessage.message_kind === "translate") {
-      await handleTranslate({ text: promptMessage.content });
+      await handleTranslate({
+        text: promptMessage.content,
+        translationMode: promptMessage.translation_mode || assistantMessage.translation_mode || "english_to_garo",
+      });
       return;
     }
 
@@ -285,7 +294,6 @@ export default function ChatPage() {
           onTranslate={handleTranslate}
           disabled={pending}
           showMobilePrompts={!messages.length}
-          selectedLanguage={selectedLanguage}
         />
       </main>
 

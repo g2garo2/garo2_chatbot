@@ -27,11 +27,11 @@ export default function ChatInput({
   onTranslate,
   disabled,
   showMobilePrompts = false,
-  selectedLanguage = "english",
 }) {
   const [text, setText] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [mode, setMode] = useState("chat");
+  const [translationMode, setTranslationMode] = useState(null);
   const textareaRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -60,14 +60,18 @@ export default function ChatInput({
     event.preventDefault();
     if (!text.trim()) return;
     if (mode === "translate") {
-      await onTranslate?.({ text: text.trim() });
+      await onTranslate?.({ text: text.trim(), translationMode });
     } else {
       await onSend({ text: text.trim() });
     }
     setText("");
   };
-
-  const targetLabel = selectedLanguage === "garo" ? "Garo" : "English";
+  const translationLabel =
+    translationMode === "english_to_garo"
+      ? "English to Garo"
+      : translationMode === "garo_to_english"
+        ? "Garo to English"
+        : "";
 
   return (
     <form className="composer" onSubmit={submit}>
@@ -79,7 +83,11 @@ export default function ChatInput({
               type="button"
               className="mobile-prompt-item"
               disabled={disabled}
-              onClick={() => (mode === "translate" ? onTranslate?.({ text: prompt.text }) : onSend({ text: prompt.text }))}
+              onClick={() =>
+                mode === "translate"
+                  ? onTranslate?.({ text: prompt.text, translationMode })
+                  : onSend({ text: prompt.text })
+              }
             >
               <prompt.icon size={16} />
               <span>{prompt.text}</span>
@@ -99,18 +107,31 @@ export default function ChatInput({
           >
             {menuOpen ? <X size={18} /> : <Plus size={18} />}
           </button>
-          {menuOpen ? (
+            {menuOpen ? (
             <div className="composer-menu">
               <button
                 type="button"
-                className={`composer-menu-item ${mode === "translate" ? "active" : ""}`}
+                className={`composer-menu-item ${translationMode === "english_to_garo" ? "active" : ""}`}
                 onClick={() => {
                   setMode("translate");
+                  setTranslationMode("english_to_garo");
                   setMenuOpen(false);
                 }}
               >
                 <Languages size={16} />
-                <span>Translate to {targetLabel}</span>
+                <span>English to Garo</span>
+              </button>
+              <button
+                type="button"
+                className={`composer-menu-item ${translationMode === "garo_to_english" ? "active" : ""}`}
+                onClick={() => {
+                  setMode("translate");
+                  setTranslationMode("garo_to_english");
+                  setMenuOpen(false);
+                }}
+              >
+                <Languages size={16} />
+                <span>Garo to English</span>
               </button>
               {mode === "translate" ? (
                 <button
@@ -118,6 +139,7 @@ export default function ChatInput({
                   className="composer-menu-item"
                   onClick={() => {
                     setMode("chat");
+                    setTranslationMode(null);
                     setMenuOpen(false);
                   }}
                 >
@@ -132,7 +154,7 @@ export default function ChatInput({
           ref={textareaRef}
           value={text}
           onChange={(event) => setText(event.target.value)}
-          placeholder={mode === "translate" ? `Type in any language. Translate to ${targetLabel}` : "Ask anything"}
+          placeholder={mode === "translate" ? `Type text for ${translationLabel}` : "Ask anything"}
           rows={1}
           disabled={disabled}
           className="composer-textarea"
@@ -150,7 +172,7 @@ export default function ChatInput({
       {mode === "translate" ? (
         <div className="composer-mode-hint">
           <Languages size={14} />
-          <span>Translate mode is on. Input language will be auto-detected.</span>
+          <span>{translationLabel} mode is on.</span>
         </div>
       ) : null}
       <p className="composer-note desktop-only-block">Garo2 can make mistakes. Check important info.</p>
