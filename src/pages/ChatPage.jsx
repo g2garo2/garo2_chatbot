@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Plus } from "lucide-react";
-import { chatApi, getApiErrorMessage } from "../api/client";
+import { chatApi, getApiErrorMessage, translateApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
@@ -145,6 +145,43 @@ export default function ChatPage() {
     await submitMessage({ text });
   };
 
+  const handleTranslate = async ({ text }) => {
+    setPending(true);
+    setError("");
+    try {
+      const optimisticUserMessage = {
+        id: Date.now(),
+        role: "user",
+        content: text,
+        input_language: "auto",
+        output_language: selectedLanguage,
+        message_kind: "translate",
+      };
+      setMessages((prev) => [...prev, optimisticUserMessage]);
+
+      const response = await translateApi.translate({
+        text,
+        source_language: "auto",
+        target_language: selectedLanguage,
+      });
+
+      const assistantMessage = {
+        id: optimisticUserMessage.id + 1,
+        role: "assistant",
+        content: response.translated_text,
+        input_language: "auto",
+        output_language: selectedLanguage,
+        message_kind: "translate",
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not translate the text."));
+    } finally {
+      setPending(false);
+    }
+  };
+
   const handleCopyMessage = async (message) => {
     try {
       await navigator.clipboard.writeText(message.content || "");
@@ -177,6 +214,11 @@ export default function ChatPage() {
 
     if (!promptMessage) {
       setError("Could not find the prompt for this response.");
+      return;
+    }
+
+    if (assistantMessage.message_kind === "translate" || promptMessage.message_kind === "translate") {
+      await handleTranslate({ text: promptMessage.content });
       return;
     }
 
@@ -240,8 +282,10 @@ export default function ChatPage() {
         />
         <ChatInput
           onSend={sendMessage}
+          onTranslate={handleTranslate}
           disabled={pending}
           showMobilePrompts={!messages.length}
+          selectedLanguage={selectedLanguage}
         />
       </main>
 

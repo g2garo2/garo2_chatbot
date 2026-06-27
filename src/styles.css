@@ -182,6 +182,7 @@ input {
 .primary-button,
 .secondary-button,
 .icon-button,
+.composer-plus-button,
 .send-button,
 .utility-button,
 .chat-row,
@@ -509,16 +510,56 @@ input {
   margin: 0 auto;
 }
 
-.composer-row-text-only {
-  grid-template-columns: 1fr 52px;
+.composer-plus-wrap {
+  position: relative;
 }
 
+.composer-plus-button,
 .send-button,
 .icon-button {
   height: 52px;
   display: grid;
   place-items: center;
   cursor: pointer;
+}
+
+.composer-plus-button.active {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  color: var(--text);
+}
+
+.composer-menu {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 10px);
+  min-width: 220px;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+  z-index: 7;
+}
+
+.composer-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--panel-strong) 72%, transparent);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.composer-menu-item.active {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel-strong));
 }
 
 .send-button:disabled {
@@ -541,6 +582,16 @@ input {
 .composer-textarea::placeholder {
   color: var(--text-muted);
   text-overflow: ellipsis;
+}
+
+.composer-mode-hint {
+  width: min(100%, 860px);
+  margin: 10px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.84rem;
 }
 
 .composer-note {
@@ -774,10 +825,6 @@ input {
     gap: 10px;
   }
 
-  .composer-row-text-only {
-    grid-template-columns: 1fr 48px;
-  }
-
   .sidebar-search,
   .language-selector,
   .composer-row {
@@ -811,10 +858,6 @@ input {
     gap: 8px;
   }
 
-  .composer-row-text-only {
-    grid-template-columns: 1fr 44px;
-  }
-
   .composer textarea {
     min-height: 44px;
     padding: 10px 12px;
@@ -822,10 +865,16 @@ input {
     line-height: 1.4;
   }
 
+  .composer-plus-button,
   .send-button {
     width: 44px;
     height: 44px;
     min-width: 44px;
+  }
+
+  .composer-menu {
+    min-width: 200px;
+    left: 0;
   }
 
   .composer-textarea::placeholder {
