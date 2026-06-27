@@ -1,9 +1,21 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { trackPageView } from "./analytics";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
 import PricingPage from "./pages/PricingPage";
 import UsagePage from "./pages/UsagePage";
+
+function AnalyticsTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(`${location.pathname}${location.search}${location.hash}`);
+  }, [location]);
+
+  return null;
+}
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
@@ -28,6 +40,7 @@ function PublicRoute({ children }) {
 export default function App() {
   return (
     <AuthProvider>
+      <AnalyticsTracker />
       <Routes>
         <Route
           path="/login"
