@@ -535,6 +535,12 @@ input {
 
 .composer-textarea {
   min-width: 0;
+  overflow-x: hidden;
+}
+
+.composer-textarea::placeholder {
+  color: var(--text-muted);
+  text-overflow: ellipsis;
 }
 
 .composer-note {
@@ -768,6 +774,10 @@ input {
     gap: 10px;
   }
 
+  .composer-row-text-only {
+    grid-template-columns: 1fr 48px;
+  }
+
   .sidebar-search,
   .language-selector,
   .composer-row {
@@ -788,6 +798,38 @@ input {
   .language-selector select {
     color: var(--text);
     text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .composer {
+    padding: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .composer-row {
+    gap: 8px;
+  }
+
+  .composer-row-text-only {
+    grid-template-columns: 1fr 44px;
+  }
+
+  .composer textarea {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .send-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+
+  .composer-textarea::placeholder {
+    font-size: 0.92rem;
   }
 }
 
