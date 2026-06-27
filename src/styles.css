@@ -906,9 +906,14 @@ input {
   gap: 16px;
 }
 
+.settings-header > div:first-child {
+  min-width: 0;
+}
+
 .settings-header h1 {
   margin: 4px 0 0;
   font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.08;
 }
 
 .settings-actions {
@@ -916,6 +921,7 @@ input {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .section-eyebrow {
@@ -941,6 +947,7 @@ input {
   border-radius: 24px;
   padding: 20px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
+  min-width: 0;
 }
 
 .pricing-card.current {
@@ -958,6 +965,7 @@ input {
 .pricing-card h2 {
   margin: 4px 0 0;
   font-size: 2rem;
+  line-height: 1.1;
 }
 
 .pricing-metrics {
@@ -966,6 +974,11 @@ input {
   margin-bottom: 18px;
   color: var(--text-muted);
   line-height: 1.55;
+}
+
+.pricing-metrics p {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .usage-summary-card {
@@ -984,6 +997,7 @@ input {
 .usage-summary-header h2 {
   margin: 4px 0 0;
   font-size: 2rem;
+  line-height: 1.1;
 }
 
 .usage-grid {
@@ -1005,6 +1019,7 @@ input {
 .usage-row div {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .usage-row span,
@@ -1015,6 +1030,7 @@ input {
 
 .usage-values {
   justify-items: end;
+  text-align: right;
 }
 
 .upgrade-prompt {
@@ -1036,6 +1052,10 @@ input {
 }
 
 @media (max-width: 960px) {
+  .settings-shell {
+    padding: 20px 18px 28px;
+  }
+
   .pricing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1050,6 +1070,11 @@ input {
 
   .usage-values {
     justify-items: start;
+    text-align: left;
+  }
+
+  .settings-actions {
+    justify-content: flex-start;
   }
 }
 
@@ -1060,5 +1085,51 @@ input {
 
   .pricing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pricing-card,
+  .settings-card {
+    padding: 18px 16px;
+    border-radius: 20px;
+  }
+
+  .pricing-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pricing-card h2,
+  .usage-summary-header h2 {
+    font-size: 1.65rem;
+  }
+
+  .settings-actions {
+    width: 100%;
+  }
+
+  .settings-actions > * {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .usage-row {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .settings-header h1 {
+    font-size: 1.55rem;
+  }
+
+  .pricing-metrics {
+    gap: 8px;
+    font-size: 0.95rem;
+  }
+
+  .usage-row strong,
+  .usage-row span,
+  .usage-row em {
+    overflow-wrap: anywhere;
   }
 }
