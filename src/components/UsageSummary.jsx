@@ -34,8 +34,6 @@ export default function UsageSummary({ usage, subscription }) {
       <div className="usage-grid">
         <UsageRow label="Chat" usage={usage.chat} period="Today" />
         <UsageRow label="Translation" usage={usage.translation} period="Today" />
-        <UsageRow label="Image uploads" usage={usage.image_upload} period="Today" />
-        <UsageRow label="Image generation" usage={usage.image_generation} period="This month" />
       </div>
     </section>
   );

@@ -11,9 +11,7 @@ const plans = [
     price: "Rs 0",
     chat: "Unlimited with safe backend rate limit",
     translation: "8/day",
-    imageUpload: "3/day",
-    imageGeneration: "1/month trial",
-    provider: "Chat uses OpenRouter free model. Translation and image features use Gemini.",
+    provider: "Chat uses OpenRouter free model. Translation uses Gemini.",
   },
   {
     key: "plus",
@@ -21,8 +19,6 @@ const plans = [
     price: "Rs 100/month",
     chat: "40/day",
     translation: "40/day",
-    imageUpload: "15/day",
-    imageGeneration: "5/month",
     provider: "All features use Gemini.",
   },
   {
@@ -31,8 +27,6 @@ const plans = [
     price: "Rs 299/month",
     chat: "120/day",
     translation: "120/day",
-    imageUpload: "45/day",
-    imageGeneration: "20/month",
     provider: "All features use Gemini.",
   },
   {
@@ -41,8 +35,6 @@ const plans = [
     price: "Rs 1099/month",
     chat: "500/day",
     translation: "500/day",
-    imageUpload: "100/day",
-    imageGeneration: "150/month",
     provider: "All features use Gemini.",
   },
 ];
@@ -88,8 +80,6 @@ export default function PricingPage() {
               <div className="pricing-metrics">
                 <p>Chat/day: {plan.chat}</p>
                 <p>Translation/day: {plan.translation}</p>
-                <p>Image uploads/day: {plan.imageUpload}</p>
-                <p>Image generation/month: {plan.imageGeneration}</p>
                 <p>AI provider: {plan.provider}</p>
               </div>
 

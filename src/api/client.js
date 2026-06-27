@@ -79,30 +79,6 @@ export const translateApi = {
   },
 };
 
-export const uploadApi = {
-  uploadImage: async (file) => {
-    const formData = new FormData();
-    formData.append("image", file);
-    const { data } = await api.post("/upload/image", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return data;
-  },
-};
-
-export const imageApi = {
-  analyze: async (payload) => {
-    const { data } = await api.post("/image/analyze", payload);
-    return data;
-  },
-  generate: async (payload) => {
-    const { data } = await api.post("/image/generate", payload);
-    return data;
-  },
-};
-
 export const billingApi = {
   createOrder: async (payload) => {
     const { data } = await api.post("/create-order", payload);
