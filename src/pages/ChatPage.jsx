@@ -10,6 +10,7 @@ import PlanBadge from "../components/PlanBadge";
 import UpgradePrompt from "../components/UpgradePrompt";
 
 const GARO_CHAT_UPGRADE_MESSAGE = "Garo chat is available on paid plans. Upgrade your plan to continue.";
+const CHAT_INPUT_LANGUAGE = "auto";
 
 function visibleChats(history) {
   return history.filter((chat) => chat.title !== "New Chat");
@@ -142,14 +143,14 @@ export default function ChatPage() {
         id: Date.now(),
         role: "user",
         content: text,
-        input_language: "english",
+        input_language: CHAT_INPUT_LANGUAGE,
         output_language: selectedLanguage,
       };
       setMessages((prev) => [...prev, optimisticUserMessage]);
 
       const response = await chatApi.sendMessage(chatId, {
         content: text,
-        input_language: "english",
+        input_language: CHAT_INPUT_LANGUAGE,
         output_language: selectedLanguage,
       });
       setMessages((prev) => [
