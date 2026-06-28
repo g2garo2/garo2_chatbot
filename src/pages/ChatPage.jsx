@@ -331,10 +331,11 @@ export default function ChatPage() {
 
         {error ? (
           <div className="error-banner">
-            {error}
             {error.includes("Upgrade your plan to continue.") ? (
               <UpgradePrompt compact message={upgradePromptMessage} />
-            ) : null}
+            ) : (
+              error
+            )}
           </div>
         ) : null}
         <ChatWindow
