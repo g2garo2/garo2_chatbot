@@ -147,6 +147,10 @@ input {
   padding: 18px 20px 14px;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  flex-shrink: 0;
 }
 
 .topbar-title {
@@ -343,6 +347,7 @@ input {
   padding: 16px 18px 140px;
   scroll-behavior: smooth;
   min-height: 0;
+  overscroll-behavior: contain;
 }
 
 .chat-column {
@@ -490,6 +495,9 @@ input {
   padding: 16px;
   background: linear-gradient(180deg, transparent 0%, rgba(9, 19, 29, 0.95) 24%);
   z-index: 4;
+  position: sticky;
+  bottom: 0;
+  backdrop-filter: blur(14px);
 }
 
 .composer textarea {
@@ -780,9 +788,6 @@ input {
   .topbar {
     padding: 14px;
     gap: 14px;
-    position: sticky;
-    top: 0;
-    z-index: 5;
   }
 
   .mobile-only,
