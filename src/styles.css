@@ -320,8 +320,14 @@ input {
   font-size: 0.9rem;
 }
 
+.language-selector-icon {
+  flex: 0 0 auto;
+  color: var(--accent-strong);
+}
+
 .language-selector select {
   min-width: 0;
+  flex: 1;
   border: 0;
   outline: 0;
   background: transparent;
@@ -895,6 +901,10 @@ input {
 
   .mobile-header-language select {
     font-size: 0.82rem;
+  }
+
+  .mobile-header-language .language-selector-icon {
+    margin-left: -2px;
   }
 
   .composer {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Plus } from "lucide-react";
+import { Bot, Menu, Plus } from "lucide-react";
 import { chatApi, getApiErrorMessage, translateApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
@@ -292,6 +292,7 @@ export default function ChatPage() {
               <option value="english">English</option>
               <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
             </select>
+            <Bot size={16} className="language-selector-icon" aria-hidden="true" />
           </label>
           <label className="language-selector mobile-only-flex mobile-header-language">
             <select
@@ -302,6 +303,7 @@ export default function ChatPage() {
               <option value="english">English</option>
               <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
             </select>
+            <Bot size={14} className="language-selector-icon" aria-hidden="true" />
           </label>
           <button className="icon-button header-new-chat" onClick={createChat} aria-label="New chat" title="New chat">
             <Plus size={18} />
