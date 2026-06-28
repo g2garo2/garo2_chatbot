@@ -22,11 +22,14 @@ const mobilePromptActions = [
   },
 ];
 
+const promptIcons = [Landmark, GraduationCap, MapPinned];
+
 export default function ChatInput({
   onSend,
   onTranslate,
   disabled,
   showMobilePrompts = false,
+  promptSuggestions = [],
 }) {
   const [text, setText] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -72,12 +75,18 @@ export default function ChatInput({
       : translationMode === "garo_to_english"
         ? "Translate Garo to English"
         : "";
+  const resolvedPromptActions = (promptSuggestions.length ? promptSuggestions : mobilePromptActions.map((prompt) => prompt.text)).map(
+    (text, index) => ({
+      icon: promptIcons[index] || Landmark,
+      text,
+    }),
+  );
 
   return (
     <form className="composer" onSubmit={submit}>
       {showMobilePrompts ? (
         <div className="mobile-prompt-list mobile-only-block">
-          {mobilePromptActions.map((prompt) => (
+          {resolvedPromptActions.map((prompt) => (
             <button
               key={prompt.text}
               type="button"

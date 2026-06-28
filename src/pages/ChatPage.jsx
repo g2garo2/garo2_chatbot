@@ -11,6 +11,11 @@ import UpgradePrompt from "../components/UpgradePrompt";
 
 const GARO_CHAT_UPGRADE_MESSAGE = "Garo chat is available on paid plans. Upgrade your plan to continue.";
 const CHAT_INPUT_LANGUAGE = "auto";
+const FALLBACK_PROMPT_SUGGESTIONS = [
+  "Tell me 10 interesting facts about Meghalaya's history, culture, festivals, tribes, and famous places in simple student-friendly language.",
+  "Quiz me with 20 general knowledge questions about Meghalaya, including answers and short explanations.",
+  "Explain Meghalaya district-wise with important facts about geography, people, culture, tourism, and current development for students.",
+];
 
 function visibleChats(history) {
   return history.filter((chat) => chat.title !== "New Chat");
@@ -26,6 +31,7 @@ export default function ChatPage() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
   const [selectedLanguage, setSelectedLanguage] = useState("english");
+  const [promptSuggestions, setPromptSuggestions] = useState(FALLBACK_PROMPT_SUGGESTIONS);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
   const bottomRef = useRef(null);
   const copyTimerRef = useRef(null);
@@ -37,6 +43,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     loadHistory();
+    loadPromptSuggestions();
   }, []);
 
   useEffect(() => {
@@ -62,6 +69,18 @@ export default function ChatPage() {
       setChats(visibleChats(history));
     } catch (err) {
       setError(getApiErrorMessage(err, "Could not load chat history."));
+    }
+  };
+
+  const loadPromptSuggestions = async () => {
+    try {
+      const response = await chatApi.getPromptSuggestions();
+      const prompts = Array.isArray(response?.prompts) ? response.prompts.filter(Boolean) : [];
+      if (prompts.length) {
+        setPromptSuggestions(prompts);
+      }
+    } catch (_err) {
+      setPromptSuggestions(FALLBACK_PROMPT_SUGGESTIONS);
     }
   };
 
@@ -332,6 +351,7 @@ export default function ChatPage() {
           onTranslate={handleTranslate}
           disabled={pending}
           showMobilePrompts={!messages.length}
+          promptSuggestions={promptSuggestions}
         />
       </main>
 

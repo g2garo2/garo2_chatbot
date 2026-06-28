@@ -54,6 +54,10 @@ export const chatApi = {
     const { data } = await api.post("/chat/new", {});
     return data;
   },
+  getPromptSuggestions: async () => {
+    const { data } = await api.get("/chat/prompt-suggestions");
+    return data;
+  },
   getHistory: async () => {
     const { data } = await api.get("/chat/history");
     return data;
