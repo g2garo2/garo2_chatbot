@@ -341,6 +341,10 @@ input {
   justify-content: space-between;
 }
 
+.mobile-header-language {
+  display: none;
+}
+
 .chat-window {
   flex: 1;
   overflow: auto;
@@ -790,6 +794,24 @@ input {
     gap: 14px;
   }
 
+  .mobile-header-language {
+    display: flex;
+    width: auto;
+    min-width: 0;
+    max-width: 132px;
+    margin-left: auto;
+    padding: 6px 10px;
+    border-radius: 14px;
+    justify-content: center;
+  }
+
+  .mobile-header-language select {
+    width: 100%;
+    min-width: 0;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
   .mobile-only,
   .header-new-chat {
     border: 0;
@@ -851,9 +873,30 @@ input {
     color: var(--text);
     text-align: right;
   }
+
+  .mobile-header-language select {
+    text-align: left;
+  }
 }
 
 @media (max-width: 480px) {
+  .topbar {
+    gap: 10px;
+  }
+
+  .topbar-title {
+    font-size: 1rem;
+  }
+
+  .mobile-header-language {
+    max-width: 108px;
+    padding: 6px 8px;
+  }
+
+  .mobile-header-language select {
+    font-size: 0.82rem;
+  }
+
   .composer {
     padding: 10px;
     padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));

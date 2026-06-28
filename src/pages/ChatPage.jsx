@@ -271,9 +271,6 @@ export default function ChatPage() {
           onDeleteChat={deleteChat}
           onNewChat={createChat}
           onLogout={logout}
-          selectedLanguage={selectedLanguage}
-          onLanguageChange={handleLanguageChange}
-          isFreePlan={isFreePlan}
         />
       </aside>
 
@@ -292,6 +289,16 @@ export default function ChatPage() {
           <label className="language-selector desktop-only-flex">
             <span>Language</span>
             <select value={selectedLanguage} onChange={(event) => handleLanguageChange(event.target.value)}>
+              <option value="english">English</option>
+              <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
+            </select>
+          </label>
+          <label className="language-selector mobile-only-flex mobile-header-language">
+            <select
+              aria-label="Select language"
+              value={selectedLanguage}
+              onChange={(event) => handleLanguageChange(event.target.value)}
+            >
               <option value="english">English</option>
               <option value="garo">{isFreePlan ? "Garo (upgrade)" : "Garo"}</option>
             </select>
