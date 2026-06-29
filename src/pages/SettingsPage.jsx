@@ -2,6 +2,12 @@ import { Link } from "react-router-dom";
 
 const SETTINGS_LINKS = [
   {
+    to: "/feedback",
+    eyebrow: "Feedback",
+    title: "Feedback",
+    description: "Send suggestions, bug reports, or general feedback directly to the Garo2 admin team.",
+  },
+  {
     to: "/privacy-policy",
     eyebrow: "Privacy",
     title: "Privacy Policy",
@@ -27,7 +33,7 @@ export default function SettingsPage() {
       <div className="settings-header">
         <div>
           <p className="section-eyebrow">Settings</p>
-          <h1>Privacy, terms, and account controls</h1>
+          <h1>Privacy, terms, feedback, and account controls</h1>
         </div>
         <div className="settings-actions">
           <Link to="/app" className="secondary-button">

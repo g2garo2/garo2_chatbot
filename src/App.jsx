@@ -10,6 +10,7 @@ import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import UsagePage from "./pages/UsagePage";
 import SettingsPage from "./pages/SettingsPage";
 import AccountDeletionPage from "./pages/AccountDeletionPage";
+import FeedbackPage from "./pages/FeedbackPage";
 
 function AnalyticsTracker() {
   const location = useLocation();
@@ -83,6 +84,14 @@ export default function App() {
           element={
             <ProtectedRoute>
               <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/feedback"
+          element={
+            <ProtectedRoute>
+              <FeedbackPage />
             </ProtectedRoute>
           }
         />

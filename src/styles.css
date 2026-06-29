@@ -1129,7 +1129,7 @@ input {
   width: min(100%, 1120px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
 }
 
@@ -1175,18 +1175,23 @@ input {
   gap: 16px;
 }
 
-.account-deletion-field {
+.account-deletion-field,
+.feedback-field {
   display: grid;
   gap: 8px;
 }
 
 .account-deletion-field span,
-.account-deletion-checkbox span {
+.account-deletion-checkbox span,
+.feedback-field span {
   color: var(--text-muted);
 }
 
 .account-deletion-field input,
-.account-deletion-field textarea {
+.account-deletion-field textarea,
+.feedback-field input,
+.feedback-field textarea,
+.feedback-field select {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -1197,6 +1202,16 @@ input {
 }
 
 .account-deletion-field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.feedback-form {
+  display: grid;
+  gap: 16px;
+}
+
+.feedback-field textarea {
   resize: vertical;
   min-height: 140px;
 }
@@ -1283,10 +1298,6 @@ input {
 
   .pricing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .settings-links-grid {
-    grid-template-columns: 1fr;
   }
 
   .settings-header,
