@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CreditCard, Gauge, LogOut, MessageSquare, Search, Trash2 } from "lucide-react";
+import { CreditCard, Gauge, LogOut, MessageSquare, Search, Settings, Trash2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import PlanBadge from "./PlanBadge";
 
@@ -52,6 +52,10 @@ export default function Sidebar({
         <NavLink to="/pricing" className="secondary-button sidebar-link-button">
           <CreditCard size={16} />
           Pricing
+        </NavLink>
+        <NavLink to="/settings" className="secondary-button sidebar-link-button">
+          <Settings size={16} />
+          Settings
         </NavLink>
       </div>
 

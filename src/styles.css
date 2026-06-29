@@ -1125,6 +1125,92 @@ input {
   margin: 0 auto;
 }
 
+.settings-links-grid {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-link-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.settings-link-card h2,
+.legal-section h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.settings-link-card p,
+.legal-section p,
+.legal-lead {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.legal-content-card {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.legal-lead {
+  font-size: 1rem;
+}
+
+.legal-section {
+  display: grid;
+  gap: 10px;
+}
+
+.account-deletion-form {
+  display: grid;
+  gap: 16px;
+}
+
+.account-deletion-field {
+  display: grid;
+  gap: 8px;
+}
+
+.account-deletion-field span,
+.account-deletion-checkbox span {
+  color: var(--text-muted);
+}
+
+.account-deletion-field input,
+.account-deletion-field textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  color: var(--text);
+  padding: 14px 16px;
+  font: inherit;
+}
+
+.account-deletion-field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.account-deletion-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.account-deletion-checkbox input {
+  margin-top: 3px;
+}
+
 .usage-summary-header {
   display: flex;
   align-items: flex-start;
@@ -1199,6 +1285,10 @@ input {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .settings-links-grid {
+    grid-template-columns: 1fr;
+  }
+
   .settings-header,
   .usage-summary-header,
   .usage-row,
@@ -1253,6 +1343,10 @@ input {
 
   .usage-row {
     padding: 14px;
+  }
+
+  .account-deletion-checkbox {
+    align-items: flex-start;
   }
 }
 

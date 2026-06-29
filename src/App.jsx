@@ -5,7 +5,11 @@ import { trackPageView } from "./analytics";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
 import PricingPage from "./pages/PricingPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import UsagePage from "./pages/UsagePage";
+import SettingsPage from "./pages/SettingsPage";
+import AccountDeletionPage from "./pages/AccountDeletionPage";
 
 function AnalyticsTracker() {
   const location = useLocation();
@@ -74,6 +78,17 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+        <Route path="/account-deletion" element={<AccountDeletionPage />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
     </AuthProvider>

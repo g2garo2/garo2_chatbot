@@ -109,6 +109,13 @@ export const plansApi = {
   },
 };
 
+export const accountDeletionApi = {
+  createRequest: async (payload) => {
+    const { data } = await api.post("/account-deletion-request", payload);
+    return data;
+  },
+};
+
 export function getApiErrorMessage(error, fallback = "Something went wrong.") {
   const detail = error?.response?.data?.detail;
   if (typeof detail === "string" && detail.trim()) {
