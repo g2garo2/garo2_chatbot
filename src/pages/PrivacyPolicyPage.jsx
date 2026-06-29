@@ -19,7 +19,7 @@ const SECTIONS = [
     title: "Payments and subscriptions",
     paragraphs: [
       "Payment and subscription data is used to verify purchases, activate plans, prevent fraud, and maintain billing records.",
-      "Sensitive payment processing is handled through approved payment providers such as Razorpay. Garo2 should not expose secret payment credentials to the frontend.",
+      "Sensitive payment processing is handled through approved payment providers such as Razorpay.",
     ],
   },
   {

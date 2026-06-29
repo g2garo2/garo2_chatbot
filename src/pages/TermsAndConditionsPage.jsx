@@ -12,7 +12,7 @@ const SECTIONS = [
     title: "Subscriptions and billing",
     paragraphs: [
       "Paid features depend on your current subscription plan, payment status, and any backend usage limits configured by Garo2.",
-      "Subscription prices, limits, and plan text may change over time. Updated plan details are controlled by the backend and admin settings.",
+      "Subscription prices, limits, and plan text may change over time.",
     ],
   },
   {
