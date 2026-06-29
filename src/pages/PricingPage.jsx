@@ -1,50 +1,52 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { getApiErrorMessage, plansApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import PlanBadge from "../components/PlanBadge";
 import RazorpayCheckoutButton from "../components/RazorpayCheckoutButton";
 
-const plans = [
-  {
-    key: "free",
-    label: "Free",
-    price: "Rs 0",
-    chat: "Unlimited with safe backend rate limit",
-    translation: "8/day",
-    provider: "English chat uses OpenRouter free model. Garo chat requires a paid plan. Translation uses Gemini.",
-  },
-  {
-    key: "plus",
-    label: "Plus",
-    price: "Rs 100/month",
-    chat: "20/day",
-    translation: "20/day",
-    provider: "All features use Gemini.",
-  },
-  {
-    key: "pro",
-    label: "Pro",
-    price: "Rs 299/month",
-    chat: "80/day",
-    translation: "80/day",
-    provider: "All features use Gemini.",
-  },
-  {
-    key: "ultra",
-    label: "Ultra",
-    price: "Rs 1099/month",
-    chat: "200/day",
-    translation: "200/day",
-    provider: "All features use Gemini.",
-  },
-];
-
 export default function PricingPage() {
   const { user } = useAuth();
+  const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const currentPlan = useMemo(() => String(user?.plan || "free").toLowerCase(), [user?.plan]);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadPlans = async () => {
+      setLoading(true);
+      try {
+        const data = await plansApi.getPublicPlans();
+        if (!active) {
+          return;
+        }
+        setPlans(data);
+      } catch (fetchError) {
+        if (!active) {
+          return;
+        }
+        setError(getApiErrorMessage(fetchError, "Could not load pricing plans."));
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadPlans();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const formatPrice = (plan) => {
+    const suffix = plan.price > 0 && plan.billing_cycle && plan.billing_cycle !== "free" ? `/${plan.billing_cycle}` : "";
+    return `Rs ${plan.price}${suffix}`;
+  };
 
   return (
     <div className="settings-shell">
@@ -63,27 +65,28 @@ export default function PricingPage() {
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}
+      {loading ? <div className="settings-banner">Loading plans...</div> : null}
 
       <section className="pricing-grid">
         {plans.map((plan) => {
-          const isCurrent = plan.key === currentPlan;
+          const isCurrent = plan.plan_key === currentPlan;
           return (
-            <article key={plan.key} className={`pricing-card ${isCurrent ? "current" : ""}`}>
+            <article key={plan.plan_key} className={`pricing-card ${isCurrent ? "current" : ""}`}>
               <div className="pricing-card-top">
                 <div>
-                  <p className="section-eyebrow">{plan.label}</p>
-                  <h2>{plan.price}</h2>
+                  <p className="section-eyebrow">{plan.name}</p>
+                  <h2>{formatPrice(plan)}</h2>
                 </div>
-                {isCurrent ? <PlanBadge plan={plan.key} /> : null}
+                {isCurrent ? <PlanBadge plan={plan.plan_key} /> : null}
               </div>
 
               <div className="pricing-metrics">
-                <p>Chat/day: {plan.chat}</p>
-                <p>Translation/day: {plan.translation}</p>
-                <p>AI provider: {plan.provider}</p>
+                <p>Chat/day: {plan.chat_limit == null ? "Unlimited with safe backend rate limit" : `${plan.chat_limit}/day`}</p>
+                <p>Translation/day: {plan.translation_limit}/day</p>
+                <p>AI provider: {plan.ai_provider}</p>
               </div>
 
-              {plan.key === "free" ? (
+              {plan.plan_key === "free" ? (
                 <button type="button" className="secondary-button" disabled>
                   Included by default
                 </button>
@@ -93,11 +96,12 @@ export default function PricingPage() {
                 </button>
               ) : (
                 <RazorpayCheckoutButton
-                  plan={plan.key}
-                  label={plan.label}
+                  plan={plan.plan_key}
+                  label={plan.name}
+                  buttonText={plan.button_text || `Pay for ${plan.name}`}
                   onSuccess={() => {
                     setError("");
-                    setSuccess(`Your ${plan.label} payment was verified and the plan is now active.`);
+                    setSuccess(`Your ${plan.name} payment was verified and the plan is now active.`);
                   }}
                   onError={(message) => {
                     setSuccess("");

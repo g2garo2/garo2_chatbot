@@ -17,13 +17,7 @@ function loadRazorpayScript() {
   });
 }
 
-const PLAN_AMOUNTS = {
-  plus: 10000,
-  pro: 29900,
-  ultra: 109900,
-};
-
-export default function RazorpayCheckoutButton({ plan, label, onSuccess, onError }) {
+export default function RazorpayCheckoutButton({ plan, label, buttonText, onSuccess, onError }) {
   const { user, refreshUser } = useAuth();
   const [pending, setPending] = useState(false);
 
@@ -34,29 +28,18 @@ export default function RazorpayCheckoutButton({ plan, label, onSuccess, onError
       if (!scriptLoaded) {
         throw new Error("Could not load Razorpay checkout.");
       }
-      if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
-        throw new Error("VITE_RAZORPAY_KEY_ID is not configured.");
-      }
-
-      const order = await billingApi.createOrder({
-        amount: PLAN_AMOUNTS[plan],
-        currency: "INR",
-        receipt: `rcpt_${plan}_${Date.now()}`,
-        plan,
-      });
+      const subscription = await billingApi.createSubscription(plan);
 
       const razorpay = new window.Razorpay({
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        order_id: order.order_id,
+        key: subscription.razorpay_key_id,
+        subscription_id: subscription.razorpay_subscription_id,
         name: "Garo2",
-        description: `${label} plan payment`,
-        amount: order.amount,
-        currency: order.currency,
+        description: `${label} plan subscription`,
         handler: async (response) => {
-          await billingApi.verifyPayment({
+          await billingApi.verifySubscription({
             plan,
             razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
+            razorpay_subscription_id: response.razorpay_subscription_id,
             razorpay_signature: response.razorpay_signature,
           });
           await refreshUser();
@@ -94,7 +77,7 @@ export default function RazorpayCheckoutButton({ plan, label, onSuccess, onError
 
   return (
     <button type="button" className="primary-button" disabled={pending} onClick={startCheckout}>
-      {pending ? "Starting..." : `Pay for ${label}`}
+      {pending ? "Starting..." : buttonText || `Pay for ${label}`}
     </button>
   );
 }

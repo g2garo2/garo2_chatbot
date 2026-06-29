@@ -102,6 +102,13 @@ export const billingApi = {
   },
 };
 
+export const plansApi = {
+  getPublicPlans: async () => {
+    const { data } = await api.get("/plans");
+    return data;
+  },
+};
+
 export function getApiErrorMessage(error, fallback = "Something went wrong.") {
   const detail = error?.response?.data?.detail;
   if (typeof detail === "string" && detail.trim()) {
