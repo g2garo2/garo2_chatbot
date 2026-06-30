@@ -51,7 +51,7 @@ export default function Sidebar({
         </NavLink>
         <NavLink to="/pricing" className="secondary-button sidebar-link-button">
           <CreditCard size={16} />
-          Pricing
+          Subscription
         </NavLink>
         <NavLink to="/settings" className="secondary-button sidebar-link-button">
           <Settings size={16} />
