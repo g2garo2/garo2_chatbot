@@ -3,9 +3,9 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.garo2.ai",
+      "package_name": "com.garo2.ai.twa",
       "sha256_cert_fingerprints": [
-        "REPLACE_WITH_REAL_SHA256_CERT_FINGERPRINT"
+        "5E:C8:58:5B:6E:8F:79:E7:CB:5A:07:F1:16:D4:30:D7:C0:AE:AA:7D:39:89:FC:F6:FF:F9:11:90:76:DB:EE:F2"
       ]
     }
   }
