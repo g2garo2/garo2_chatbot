@@ -1,5 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { CircleAlert, CircleCheck, Eye, EyeOff, Lock, Mail, UserRound } from "lucide-react";
+import { CircleAlert, CircleCheck, Mail, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../api/client";
@@ -13,11 +13,7 @@ export default function LoginPage() {
   const [mode, setMode] = useState("login");
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [loadingAction, setLoadingAction] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -104,11 +100,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleForgotPassword = () => {
-    setSuccess("");
-    setError("Forgot password is not available yet. Please continue with Google or use your email login.");
-  };
-
   const isBusy = loadingAction !== "";
 
   return (
@@ -155,29 +146,6 @@ export default function LoginPage() {
               </span>
             </label>
 
-            <label className="login-field">
-              <span className="login-label">Password</span>
-              <span className="login-input-wrap">
-                <Lock size={18} className="login-input-icon" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  className="login-input login-input-modern login-input-with-action"
-                  placeholder="••••••••••"
-                  value={loginPassword}
-                  onChange={(event) => setLoginPassword(event.target.value)}
-                  disabled={isBusy}
-                />
-                <button
-                  type="button"
-                  className="login-input-action"
-                  onClick={() => setShowPassword((current) => !current)}
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </span>
-            </label>
-
             <button type="submit" className="primary-button login-submit-button login-submit-primary" disabled={isBusy}>
               {loadingAction === "login" ? (
                 <span className="login-button-loading">
@@ -187,10 +155,6 @@ export default function LoginPage() {
               ) : (
                 "Log In"
               )}
-            </button>
-
-            <button type="button" className="login-link-button" onClick={handleForgotPassword}>
-              Forgot password?
             </button>
           </form>
         ) : (
@@ -222,29 +186,6 @@ export default function LoginPage() {
                   onChange={(event) => setRegisterEmail(event.target.value)}
                   disabled={isBusy}
                 />
-              </span>
-            </label>
-
-            <label className="login-field">
-              <span className="login-label">Password</span>
-              <span className="login-input-wrap">
-                <Lock size={18} className="login-input-icon" />
-                <input
-                  type={showSignupPassword ? "text" : "password"}
-                  className="login-input login-input-modern login-input-with-action"
-                  placeholder="Create a password"
-                  value={registerPassword}
-                  onChange={(event) => setRegisterPassword(event.target.value)}
-                  disabled={isBusy}
-                />
-                <button
-                  type="button"
-                  className="login-input-action"
-                  onClick={() => setShowSignupPassword((current) => !current)}
-                  aria-label={showSignupPassword ? "Hide password" : "Show password"}
-                >
-                  {showSignupPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
               </span>
             </label>
 
@@ -294,10 +235,7 @@ export default function LoginPage() {
         )}
 
         <div className="login-google-section">
-          <div className="login-google-label">
-            <span className="login-google-icon">G</span>
-            <span>Continue with Google</span>
-          </div>
+          <p className="login-google-heading">Continue with Google</p>
           <div className="login-google-wrap">
             <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
           </div>
