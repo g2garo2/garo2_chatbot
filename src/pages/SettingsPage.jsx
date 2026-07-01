@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SettingsHeader from "../components/SettingsHeader";
 
 const SETTINGS_LINKS = [
   {
@@ -30,17 +31,11 @@ const SETTINGS_LINKS = [
 export default function SettingsPage() {
   return (
     <div className="settings-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Settings</p>
-          <h1>Privacy, terms, feedback, and account controls</h1>
-        </div>
-        <div className="settings-actions">
-          <Link to="/app" className="secondary-button">
-            Back to chat
-          </Link>
-        </div>
-      </div>
+      <SettingsHeader
+        backTo="/app"
+        eyebrow="Settings"
+        title="Privacy, terms, feedback, and account controls"
+      />
 
       <section className="settings-links-grid">
         {SETTINGS_LINKS.map((item) => (

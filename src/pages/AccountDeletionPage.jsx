@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { accountDeletionApi, getApiErrorMessage } from "../api/client";
+import SettingsHeader from "../components/SettingsHeader";
 import { useAuth } from "../context/AuthContext";
 
 export default function AccountDeletionPage() {
@@ -64,20 +64,7 @@ export default function AccountDeletionPage() {
 
   return (
     <div className="settings-shell legal-page-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Account</p>
-          <h1>Account Deletion</h1>
-        </div>
-        <div className="settings-actions">
-          <Link to="/settings" className="secondary-button">
-            Back to settings
-          </Link>
-          <Link to="/app" className="secondary-button">
-            Back to home
-          </Link>
-        </div>
-      </div>
+      <SettingsHeader backTo="/settings" eyebrow="Account" title="Account Deletion" />
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}

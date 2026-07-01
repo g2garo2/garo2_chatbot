@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import SettingsHeader from "../components/SettingsHeader";
 
 const SECTIONS = [
   {
@@ -41,20 +41,7 @@ const SECTIONS = [
 export default function TermsAndConditionsPage() {
   return (
     <div className="settings-shell legal-page-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Legal</p>
-          <h1>Terms &amp; Conditions</h1>
-        </div>
-        <div className="settings-actions">
-          <Link to="/settings" className="secondary-button">
-            Back to settings
-          </Link>
-          <Link to="/app" className="secondary-button">
-            Back to home
-          </Link>
-        </div>
-      </div>
+      <SettingsHeader backTo="/settings" eyebrow="Legal" title="Terms & Conditions" />
 
       <article className="settings-card legal-content-card">
         <p className="legal-lead">

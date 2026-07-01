@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { feedbackApi, getApiErrorMessage } from "../api/client";
+import SettingsHeader from "../components/SettingsHeader";
 import { useAuth } from "../context/AuthContext";
 
 const FEEDBACK_TYPES = [
@@ -65,20 +65,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="settings-shell legal-page-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Feedback</p>
-          <h1>Send feedback</h1>
-        </div>
-        <div className="settings-actions">
-          <Link to="/settings" className="secondary-button">
-            Back to settings
-          </Link>
-          <Link to="/app" className="secondary-button">
-            Back to home
-          </Link>
-        </div>
-      </div>
+      <SettingsHeader backTo="/settings" eyebrow="Feedback" title="Send feedback" />
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}
