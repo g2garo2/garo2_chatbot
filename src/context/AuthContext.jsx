@@ -36,6 +36,21 @@ export function AuthProvider({ children }) {
     const data = await authApi.googleLogin(credential);
     localStorage.setItem("garo2_token", data.access_token);
     setUser(data.user);
+    return data.user;
+  };
+
+  const registerWithEmail = async (payload) => {
+    const data = await authApi.register(payload);
+    localStorage.setItem("garo2_token", data.access_token);
+    setUser(data.user);
+    return data.user;
+  };
+
+  const loginWithEmail = async (payload) => {
+    const data = await authApi.login(payload);
+    localStorage.setItem("garo2_token", data.access_token);
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = () => {
@@ -44,7 +59,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, loading, login, registerWithEmail, loginWithEmail, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
