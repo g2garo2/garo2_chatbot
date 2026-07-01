@@ -1306,7 +1306,7 @@ input {
   --settings-shell-pad: 24px;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: var(--settings-shell-pad);
+  padding: 0 var(--settings-shell-pad) var(--settings-shell-pad);
 }
 
 .settings-header {
@@ -1686,7 +1686,7 @@ input {
 @media (max-width: 960px) {
   .settings-shell {
     --settings-shell-pad: 18px;
-    padding: 20px var(--settings-shell-pad) 28px;
+    padding: 0 var(--settings-shell-pad) 28px;
   }
 
   .pricing-grid {
@@ -1744,7 +1744,7 @@ input {
 
   .settings-shell {
     --settings-shell-pad: 14px;
-    padding: 18px var(--settings-shell-pad);
+    padding: 0 var(--settings-shell-pad) 18px;
   }
 
   .settings-static-header {
