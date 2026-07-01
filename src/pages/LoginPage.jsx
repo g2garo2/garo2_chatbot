@@ -1,4 +1,4 @@
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { CircleCheck, LockKeyhole, Mail, X, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -293,7 +293,9 @@ export default function LoginPage() {
         <div className="login-google-section">
           <p className="login-google-heading">Continue with Google</p>
           <div className="login-google-wrap">
-            <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+              <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
+            </GoogleOAuthProvider>
           </div>
         </div>
       </div>
