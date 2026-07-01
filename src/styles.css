@@ -1065,6 +1065,10 @@ input {
   justify-content: flex-end;
 }
 
+.settings-actions .secondary-button {
+  white-space: nowrap;
+}
+
 .section-eyebrow {
   margin: 0;
   color: var(--text-muted);
@@ -1139,6 +1143,11 @@ input {
   display: grid;
   gap: 14px;
   align-content: start;
+}
+
+.settings-link-card .primary-button {
+  justify-content: center;
+  text-align: center;
 }
 
 .settings-link-card h2,
