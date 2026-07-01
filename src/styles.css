@@ -211,6 +211,7 @@ input {
   background: linear-gradient(135deg, var(--accent), #226d85);
   color: #08131b;
   font-weight: 700;
+  text-decoration: none;
 }
 
 .icon-only-button {
@@ -221,6 +222,7 @@ input {
 
 .secondary-button {
   justify-content: center;
+  text-decoration: none;
 }
 
 .sidebar-search {

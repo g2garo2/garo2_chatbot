@@ -49,7 +49,7 @@ export default function SettingsPage() {
             <h2>{item.title}</h2>
             <p>{item.description}</p>
             <Link to={item.to} className="primary-button">
-              Open
+              Read more
             </Link>
           </article>
         ))}
