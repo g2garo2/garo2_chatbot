@@ -1,4 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
+import { CircleAlert, CircleCheck, Eye, EyeOff, Lock, Mail, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../api/client";
@@ -9,9 +10,14 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function LoginPage() {
   const { login, registerWithEmail, loginWithEmail } = useAuth();
   const navigate = useNavigate();
+  const [mode, setMode] = useState("login");
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showSignupPassword, setShowSignupPassword] = useState(false);
   const [loadingAction, setLoadingAction] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -21,14 +27,18 @@ export default function LoginPage() {
     navigate("/app", { replace: true });
   };
 
+  const resetMessages = () => {
+    setError("");
+    setSuccess("");
+  };
+
   const handleSuccess = async (credentialResponse) => {
     if (!credentialResponse.credential) {
       return;
     }
 
     setLoadingAction("google");
-    setError("");
-    setSuccess("");
+    resetMessages();
     try {
       await login(credentialResponse.credential);
       await finishAuth("Signed in successfully.");
@@ -56,8 +66,7 @@ export default function LoginPage() {
     }
 
     setLoadingAction("register");
-    setError("");
-    setSuccess("");
+    resetMessages();
     try {
       await registerWithEmail({ name: normalizedName, email: normalizedEmail });
       await finishAuth("You are now signed in.");
@@ -84,8 +93,7 @@ export default function LoginPage() {
     }
 
     setLoadingAction("login");
-    setError("");
-    setSuccess("");
+    resetMessages();
     try {
       await loginWithEmail({ email: normalizedEmail });
       await finishAuth("You are now signed in.");
@@ -96,80 +104,203 @@ export default function LoginPage() {
     }
   };
 
+  const handleForgotPassword = () => {
+    setSuccess("");
+    setError("Forgot password is not available yet. Please continue with Google or use your email login.");
+  };
+
+  const isBusy = loadingAction !== "";
+
   return (
     <div className="login-shell">
-      <div className="login-layout">
-        <section className="login-brand-panel">
-          <div className="login-brand-content">
-            <img src="/g2-logo.jpeg" alt="Garo2 logo" className="login-logo" />
-            <p className="login-brand-kicker">Welcome to Garo2</p>
-            <h1>Learn, chat, and translate with a clean AI workspace built for Garo and English.</h1>
-            <p className="login-brand-description">
-              Sign in to continue your conversations, manage your plan, and access your personalized language tools
-              from any device.
-            </p>
+      <div className="login-card login-card-modern">
+        <img src="/g2-logo.jpeg" alt="Garo2 logo" className="login-logo login-logo-modern" />
+
+        <div className="login-card-header login-card-header-modern">
+          <h1>{mode === "login" ? "Log In" : "Create Account"}</h1>
+          <p className="login-helper-text">
+            {mode === "login"
+              ? "Sign in to continue chatting, translating, and managing your workspace."
+              : "Create your account with name and email, or continue instantly with Google."}
+          </p>
+        </div>
+
+        {success ? (
+          <div className="login-status-banner login-status-success" role="status">
+            <CircleCheck size={18} />
+            <span>{success}</span>
           </div>
-        </section>
-
-        <div className="login-card">
-          <div className="login-card-header">
-            <h2>Sign in to Garo2</h2>
-            <p className="login-helper-text">Continue with Google or use name and email.</p>
+        ) : null}
+        {error ? (
+          <div className="login-status-banner login-status-error" role="alert">
+            <CircleAlert size={18} />
+            <span>{error}</span>
           </div>
+        ) : null}
 
-          <div className="login-auth-section">
-            <p className="login-option-label">Continue with Google</p>
-            <div className="login-google-wrap">
-              <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
-            </div>
+        {mode === "login" ? (
+          <form className="login-form-stack" onSubmit={handleLogin}>
+            <label className="login-field">
+              <span className="login-label">Email</span>
+              <span className="login-input-wrap">
+                <Mail size={18} className="login-input-icon" />
+                <input
+                  type="email"
+                  className="login-input login-input-modern"
+                  placeholder="you@example.com"
+                  value={loginEmail}
+                  onChange={(event) => setLoginEmail(event.target.value)}
+                  disabled={isBusy}
+                />
+              </span>
+            </label>
+
+            <label className="login-field">
+              <span className="login-label">Password</span>
+              <span className="login-input-wrap">
+                <Lock size={18} className="login-input-icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="login-input login-input-modern login-input-with-action"
+                  placeholder="••••••••••"
+                  value={loginPassword}
+                  onChange={(event) => setLoginPassword(event.target.value)}
+                  disabled={isBusy}
+                />
+                <button
+                  type="button"
+                  className="login-input-action"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </span>
+            </label>
+
+            <button type="submit" className="primary-button login-submit-button login-submit-primary" disabled={isBusy}>
+              {loadingAction === "login" ? (
+                <span className="login-button-loading">
+                  <span className="login-spinner" />
+                  Log In
+                </span>
+              ) : (
+                "Log In"
+              )}
+            </button>
+
+            <button type="button" className="login-link-button" onClick={handleForgotPassword}>
+              Forgot password?
+            </button>
+          </form>
+        ) : (
+          <form className="login-form-stack" onSubmit={handleRegister}>
+            <label className="login-field">
+              <span className="login-label">Name</span>
+              <span className="login-input-wrap">
+                <UserRound size={18} className="login-input-icon" />
+                <input
+                  type="text"
+                  className="login-input login-input-modern"
+                  placeholder="Your name"
+                  value={registerName}
+                  onChange={(event) => setRegisterName(event.target.value)}
+                  disabled={isBusy}
+                />
+              </span>
+            </label>
+
+            <label className="login-field">
+              <span className="login-label">Email</span>
+              <span className="login-input-wrap">
+                <Mail size={18} className="login-input-icon" />
+                <input
+                  type="email"
+                  className="login-input login-input-modern"
+                  placeholder="you@example.com"
+                  value={registerEmail}
+                  onChange={(event) => setRegisterEmail(event.target.value)}
+                  disabled={isBusy}
+                />
+              </span>
+            </label>
+
+            <label className="login-field">
+              <span className="login-label">Password</span>
+              <span className="login-input-wrap">
+                <Lock size={18} className="login-input-icon" />
+                <input
+                  type={showSignupPassword ? "text" : "password"}
+                  className="login-input login-input-modern login-input-with-action"
+                  placeholder="Create a password"
+                  value={registerPassword}
+                  onChange={(event) => setRegisterPassword(event.target.value)}
+                  disabled={isBusy}
+                />
+                <button
+                  type="button"
+                  className="login-input-action"
+                  onClick={() => setShowSignupPassword((current) => !current)}
+                  aria-label={showSignupPassword ? "Hide password" : "Show password"}
+                >
+                  {showSignupPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </span>
+            </label>
+
+            <button
+              type="submit"
+              className="primary-button login-submit-button login-submit-primary"
+              disabled={isBusy}
+            >
+              {loadingAction === "register" ? (
+                <span className="login-button-loading">
+                  <span className="login-spinner" />
+                  Create Account
+                </span>
+              ) : (
+                "Create Account"
+              )}
+            </button>
+          </form>
+        )}
+
+        <div className="login-divider login-divider-modern">
+          <span>or</span>
+        </div>
+
+        {mode === "login" ? (
+          <button
+            type="button"
+            className="secondary-button login-submit-button login-submit-secondary"
+            onClick={() => {
+              setMode("signup");
+              resetMessages();
+            }}
+          >
+            Create New Account
+          </button>
+        ) : (
+          <button
+            type="button"
+            className="login-link-button login-link-button-strong"
+            onClick={() => {
+              setMode("login");
+              resetMessages();
+            }}
+          >
+            Back to Login
+          </button>
+        )}
+
+        <div className="login-google-section">
+          <div className="login-google-label">
+            <span className="login-google-icon">G</span>
+            <span>Continue with Google</span>
           </div>
-
-          <div className="login-divider">
-            <span>or</span>
+          <div className="login-google-wrap">
+            <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
           </div>
-
-          <div className="login-form-grid">
-            <form className="login-auth-section login-form-section" onSubmit={handleRegister}>
-              <p className="login-option-label">Create Account</p>
-              <input
-                type="text"
-                className="login-input"
-                placeholder="Name"
-                value={registerName}
-                onChange={(event) => setRegisterName(event.target.value)}
-                disabled={loadingAction !== ""}
-              />
-              <input
-                type="email"
-                className="login-input"
-                placeholder="Email"
-                value={registerEmail}
-                onChange={(event) => setRegisterEmail(event.target.value)}
-                disabled={loadingAction !== ""}
-              />
-              <button type="submit" className="primary-button login-submit-button" disabled={loadingAction !== ""}>
-                {loadingAction === "register" ? "Creating..." : "Create Account"}
-              </button>
-            </form>
-
-            <form className="login-auth-section login-form-section" onSubmit={handleLogin}>
-              <p className="login-option-label">Login</p>
-              <input
-                type="email"
-                className="login-input"
-                placeholder="Email"
-                value={loginEmail}
-                onChange={(event) => setLoginEmail(event.target.value)}
-                disabled={loadingAction !== ""}
-              />
-              <button type="submit" className="secondary-button login-submit-button" disabled={loadingAction !== ""}>
-                {loadingAction === "login" ? "Logging in..." : "Login"}
-              </button>
-            </form>
-          </div>
-
-          {success ? <p className="success-banner login-status-banner">{success}</p> : null}
-          {error ? <p className="error-banner login-status-banner">{error}</p> : null}
         </div>
       </div>
     </div>
