@@ -1,5 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { CircleCheck, Mail, X, UserRound } from "lucide-react";
+import { CircleCheck, LockKeyhole, Mail, X, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../api/client";
@@ -13,7 +13,9 @@ export default function LoginPage() {
   const [mode, setMode] = useState("login");
   const [registerName, setRegisterName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [loadingAction, setLoadingAction] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -51,7 +53,7 @@ export default function LoginPage() {
     const normalizedEmail = registerEmail.trim().toLowerCase();
 
     if (!normalizedName || !normalizedEmail) {
-      setError("Name and email are required.");
+      setError("Name, email, and password are required.");
       setSuccess("");
       return;
     }
@@ -60,11 +62,16 @@ export default function LoginPage() {
       setSuccess("");
       return;
     }
+    if (registerPassword.trim().length < 8) {
+      setError("Password must be at least 8 characters.");
+      setSuccess("");
+      return;
+    }
 
     setLoadingAction("register");
     resetMessages();
     try {
-      await registerWithEmail({ name: normalizedName, email: normalizedEmail });
+      await registerWithEmail({ name: normalizedName, email: normalizedEmail, password: registerPassword });
       await finishAuth("You are now signed in.");
     } catch (err) {
       const message = getApiErrorMessage(err, "Could not create your account.");
@@ -92,11 +99,16 @@ export default function LoginPage() {
       setSuccess("");
       return;
     }
+    if (!loginPassword.trim()) {
+      setError("Password is required.");
+      setSuccess("");
+      return;
+    }
 
     setLoadingAction("login");
     resetMessages();
     try {
-      await loginWithEmail({ email: normalizedEmail });
+      await loginWithEmail({ email: normalizedEmail, password: loginPassword });
       await finishAuth("You are now signed in.");
     } catch (err) {
       setError(getApiErrorMessage(err, "Could not log you in."));
@@ -160,6 +172,21 @@ export default function LoginPage() {
               </span>
             </label>
 
+            <label className="login-field">
+              <span className="login-label">Password</span>
+              <span className="login-input-wrap">
+                <LockKeyhole size={18} className="login-input-icon" />
+                <input
+                  type="password"
+                  className="login-input login-input-modern"
+                  placeholder="Enter your password"
+                  value={loginPassword}
+                  onChange={(event) => setLoginPassword(event.target.value)}
+                  disabled={isBusy}
+                />
+              </span>
+            </label>
+
             <button type="submit" className="primary-button login-submit-button login-submit-primary" disabled={isBusy}>
               {loadingAction === "login" ? (
                 <span className="login-button-loading">
@@ -198,6 +225,21 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   value={registerEmail}
                   onChange={(event) => setRegisterEmail(event.target.value)}
+                  disabled={isBusy}
+                />
+              </span>
+            </label>
+
+            <label className="login-field">
+              <span className="login-label">Password</span>
+              <span className="login-input-wrap">
+                <LockKeyhole size={18} className="login-input-icon" />
+                <input
+                  type="password"
+                  className="login-input login-input-modern"
+                  placeholder="Create a password"
+                  value={registerPassword}
+                  onChange={(event) => setRegisterPassword(event.target.value)}
                   disabled={isBusy}
                 />
               </span>
