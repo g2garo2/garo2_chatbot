@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getApiErrorMessage, meApi } from "../api/client";
+import SettingsHeader from "../components/SettingsHeader";
 import UsageSummary from "../components/UsageSummary";
 
 export default function UsagePage() {
@@ -27,19 +28,12 @@ export default function UsagePage() {
 
   return (
     <div className="settings-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Usage</p>
-          <h1>Your current usage and limits</h1>
-        </div>
-        <div className="settings-actions">
-          <Link to="/pricing" className="primary-button">
-            Upgrade plan
-          </Link>
-          <Link to="/app" className="secondary-button">
-            Back to chat
-          </Link>
-        </div>
+      <SettingsHeader backTo="/app" title="Usage" />
+
+      <div className="settings-actions">
+        <Link to="/pricing" className="primary-button">
+          Upgrade plan
+        </Link>
       </div>
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
