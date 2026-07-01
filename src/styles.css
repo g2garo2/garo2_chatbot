@@ -1331,13 +1331,15 @@ input {
   position: sticky;
   top: 0;
   z-index: 6;
-  width: min(100%, 1120px);
-  margin: 0 auto 20px;
-  padding: 18px 0 14px;
+  width: 100%;
+  margin: 0 0 20px;
+  padding: 18px 20px 14px;
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
   gap: 16px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
   flex-shrink: 0;
 }
 
@@ -1365,7 +1367,7 @@ input {
 .settings-static-header-title {
   margin: 0;
   min-width: 0;
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.2;
   text-align: center;
@@ -1755,7 +1757,7 @@ input {
   }
 
   .settings-static-header-title {
-    font-size: 1rem;
+    font-size: 1.18rem;
   }
 
   .settings-header-spacer {
