@@ -9,6 +9,8 @@ export default function SettingsHeader({ backTo, title }) {
       </Link>
 
       <h1 className="settings-static-header-title">{title}</h1>
+
+      <div className="settings-header-spacer" aria-hidden="true" />
     </header>
   );
 }

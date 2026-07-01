@@ -1333,13 +1333,11 @@ input {
   z-index: 6;
   width: min(100%, 1120px);
   margin: 0 auto 20px;
-  padding: 18px 20px 14px;
-  display: flex;
+  padding: 18px 0 14px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
-  justify-content: flex-start;
   gap: 16px;
-  background: color-mix(in srgb, var(--bg) 82%, transparent);
-  backdrop-filter: blur(12px);
   flex-shrink: 0;
 }
 
@@ -1370,7 +1368,12 @@ input {
   font-size: 1.1rem;
   font-weight: 700;
   line-height: 1.2;
-  flex: 1;
+  text-align: center;
+}
+
+.settings-header-spacer {
+  width: 44px;
+  height: 44px;
 }
 
 .settings-actions {
@@ -1742,6 +1745,7 @@ input {
   .settings-static-header {
     padding: 14px;
     gap: 14px;
+    grid-template-columns: 42px minmax(0, 1fr) 42px;
   }
 
   .settings-back-button {
@@ -1752,6 +1756,11 @@ input {
 
   .settings-static-header-title {
     font-size: 1rem;
+  }
+
+  .settings-header-spacer {
+    width: 42px;
+    height: 42px;
   }
 
   .pricing-grid {
