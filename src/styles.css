@@ -1394,6 +1394,7 @@ input {
 }
 
 .usage-page-actions .primary-button {
+  width: 100%;
   justify-content: center;
 }
 
