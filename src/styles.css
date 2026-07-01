@@ -1387,6 +1387,16 @@ input {
   justify-content: flex-end;
 }
 
+.usage-page-actions {
+  width: min(100%, 980px);
+  margin: 0 auto 22px;
+  justify-content: center;
+}
+
+.usage-page-actions .primary-button {
+  justify-content: center;
+}
+
 .settings-actions .secondary-button {
   white-space: nowrap;
 }
@@ -1715,6 +1725,10 @@ input {
     justify-content: flex-start;
   }
 
+  .usage-page-actions {
+    justify-content: center;
+  }
+
 }
 
 @media (max-width: 640px) {
@@ -1813,6 +1827,10 @@ input {
   .settings-actions > * {
     width: 100%;
     justify-content: center;
+  }
+
+  .usage-page-actions {
+    margin-bottom: 20px;
   }
 
   .usage-row {

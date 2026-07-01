@@ -30,7 +30,7 @@ export default function UsagePage() {
     <div className="settings-shell">
       <SettingsHeader backTo="/app" title="Usage" />
 
-      <div className="settings-actions">
+      <div className="settings-actions usage-page-actions">
         <Link to="/pricing" className="primary-button">
           Upgrade plan
         </Link>
