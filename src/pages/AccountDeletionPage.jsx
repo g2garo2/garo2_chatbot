@@ -64,7 +64,7 @@ export default function AccountDeletionPage() {
 
   return (
     <div className="settings-shell legal-page-shell">
-      <SettingsHeader backTo="/settings" eyebrow="Account" title="Account Deletion" />
+      <SettingsHeader backTo="/settings" title="Account" />
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}

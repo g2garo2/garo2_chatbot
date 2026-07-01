@@ -34,7 +34,7 @@ const SECTIONS = [
 export default function PrivacyPolicyPage() {
   return (
     <div className="settings-shell legal-page-shell">
-      <SettingsHeader backTo="/settings" eyebrow="Legal" title="Privacy Policy" />
+      <SettingsHeader backTo="/settings" title="Privacy Policy" />
 
       <article className="settings-card legal-content-card">
         <p className="legal-lead">

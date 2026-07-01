@@ -65,7 +65,7 @@ export default function FeedbackPage() {
 
   return (
     <div className="settings-shell legal-page-shell">
-      <SettingsHeader backTo="/settings" eyebrow="Feedback" title="Send feedback" />
+      <SettingsHeader backTo="/settings" title="Feedback" />
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}

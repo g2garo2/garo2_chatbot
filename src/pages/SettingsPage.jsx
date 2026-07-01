@@ -33,8 +33,7 @@ export default function SettingsPage() {
     <div className="settings-shell">
       <SettingsHeader
         backTo="/app"
-        eyebrow="Settings"
-        title="Privacy, terms, feedback, and account controls"
+        title="Settings"
       />
 
       <section className="settings-links-grid">

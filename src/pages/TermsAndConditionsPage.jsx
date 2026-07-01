@@ -41,7 +41,7 @@ const SECTIONS = [
 export default function TermsAndConditionsPage() {
   return (
     <div className="settings-shell legal-page-shell">
-      <SettingsHeader backTo="/settings" eyebrow="Legal" title="Terms & Conditions" />
+      <SettingsHeader backTo="/settings" title="Terms & Conditions" />
 
       <article className="settings-card legal-content-card">
         <p className="legal-lead">

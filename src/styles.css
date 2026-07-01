@@ -1333,27 +1333,26 @@ input {
   z-index: 6;
   width: min(100%, 1120px);
   margin: 0 auto 20px;
-  padding: 14px 16px;
+  padding: 18px 20px 14px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  background: color-mix(in srgb, var(--panel-soft) 88%, transparent);
-  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(18px);
+  justify-content: flex-start;
+  gap: 16px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
 }
 
 .settings-back-button {
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   border: 1px solid var(--border);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  border-radius: 14px;
+  background: var(--panel);
   color: var(--text);
   text-decoration: none;
   transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
@@ -1365,14 +1364,13 @@ input {
   background: color-mix(in srgb, var(--panel-strong) 86%, transparent);
 }
 
-.settings-static-header-copy {
+.settings-static-header-title {
+  margin: 0;
   min-width: 0;
-}
-
-.settings-static-header-copy h1 {
-  margin: 4px 0 0;
-  font-size: clamp(1.4rem, 3.6vw, 2.5rem);
-  line-height: 1.08;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  flex: 1;
 }
 
 .settings-actions {
@@ -1710,9 +1708,6 @@ input {
     justify-content: flex-start;
   }
 
-  .settings-static-header {
-    position: static;
-  }
 }
 
 @media (max-width: 640px) {
@@ -1746,8 +1741,7 @@ input {
 
   .settings-static-header {
     padding: 14px;
-    border-radius: 20px;
-    gap: 12px;
+    gap: 14px;
   }
 
   .settings-back-button {
@@ -1756,8 +1750,8 @@ input {
     border-radius: 14px;
   }
 
-  .settings-static-header-copy h1 {
-    font-size: clamp(1.3rem, 7vw, 2rem);
+  .settings-static-header-title {
+    font-size: 1rem;
   }
 
   .pricing-grid {
