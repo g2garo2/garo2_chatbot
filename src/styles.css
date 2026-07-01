@@ -1303,9 +1303,10 @@ input {
 }
 
 .settings-shell {
+  --settings-shell-pad: 24px;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 24px;
+  padding: var(--settings-shell-pad);
 }
 
 .settings-header {
@@ -1331,9 +1332,9 @@ input {
   position: sticky;
   top: 0;
   z-index: 6;
-  width: 100%;
-  margin: 0 0 20px;
-  padding: 18px 20px 14px;
+  width: calc(100% + (var(--settings-shell-pad) * 2));
+  margin: 0 0 20px calc(var(--settings-shell-pad) * -1);
+  padding: 18px calc(var(--settings-shell-pad) + 20px) 14px;
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
   align-items: center;
@@ -1684,7 +1685,8 @@ input {
 
 @media (max-width: 960px) {
   .settings-shell {
-    padding: 20px 18px 28px;
+    --settings-shell-pad: 18px;
+    padding: 20px var(--settings-shell-pad) 28px;
   }
 
   .pricing-grid {
@@ -1741,11 +1743,12 @@ input {
   }
 
   .settings-shell {
-    padding: 18px 14px;
+    --settings-shell-pad: 14px;
+    padding: 18px var(--settings-shell-pad);
   }
 
   .settings-static-header {
-    padding: 14px;
+    padding: 14px calc(var(--settings-shell-pad) + 14px);
     gap: 14px;
     grid-template-columns: 42px minmax(0, 1fr) 42px;
   }
