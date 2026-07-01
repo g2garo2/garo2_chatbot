@@ -196,8 +196,8 @@ export default function ChatPage() {
     try {
       const sourceLanguage = translationMode === "garo_to_english" ? "garo" : "english";
       const targetLanguage = translationMode === "garo_to_english" ? "english" : "garo";
-      const modeLabel =
-        translationMode === "garo_to_english" ? "Translate Garo to English" : "Translate English to Garo";
+      const sourceLabel = translationMode === "garo_to_english" ? "Garo" : "English";
+      const targetLabel = translationMode === "garo_to_english" ? "English" : "Garo";
 
       const optimisticUserMessage = {
         id: Date.now(),
@@ -219,7 +219,7 @@ export default function ChatPage() {
       const assistantMessage = {
         id: optimisticUserMessage.id + 1,
         role: "assistant",
-        content: `${modeLabel}\n\n${response.translated_text}`,
+        content: `${sourceLabel} - ${text}\n\n${targetLabel} - ${response.translated_text}`,
         input_language: sourceLanguage,
         output_language: targetLanguage,
         message_kind: "translate",
