@@ -67,7 +67,12 @@ export default function LoginPage() {
       await registerWithEmail({ name: normalizedName, email: normalizedEmail });
       await finishAuth("You are now signed in.");
     } catch (err) {
-      setError(getApiErrorMessage(err, "Could not create your account."));
+      const message = getApiErrorMessage(err, "Could not create your account.");
+      if (message.includes("Please log in")) {
+        setMode("login");
+        setLoginEmail(normalizedEmail);
+      }
+      setError(message);
     } finally {
       setLoadingAction("");
     }
