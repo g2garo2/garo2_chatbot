@@ -37,6 +37,7 @@ export default function ChatPage() {
   const copyTimerRef = useRef(null);
   const currentPlan = String(user?.plan || "free").toLowerCase();
   const isFreePlan = currentPlan === "free";
+  const showUpgradePopup = error.includes("Upgrade your plan to continue.");
   const upgradePromptMessage = error.includes("Upgrade your plan to continue.")
     ? error
     : "You have reached your limit for this plan. Upgrade your plan to continue.";
@@ -329,13 +330,14 @@ export default function ChatPage() {
           </button>
         </header>
 
-        {error ? (
+        {error && !showUpgradePopup ? (
           <div className="error-banner">
-            {error.includes("Upgrade your plan to continue.") ? (
-              <UpgradePrompt compact message={upgradePromptMessage} />
-            ) : (
-              error
-            )}
+            {error}
+          </div>
+        ) : null}
+        {showUpgradePopup ? (
+          <div className="upgrade-prompt-overlay">
+            <UpgradePrompt message={upgradePromptMessage} onClose={() => setError("")} />
           </div>
         ) : null}
         <ChatWindow
