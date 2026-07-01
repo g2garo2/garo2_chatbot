@@ -1,5 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
-import { CircleAlert, CircleCheck, Mail, X, UserRound } from "lucide-react";
+import { CircleCheck, Mail, X, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiErrorMessage } from "../api/client";
@@ -129,7 +129,7 @@ export default function LoginPage() {
         ) : null}
         {error ? (
           <div className="login-modal-overlay" role="alertdialog" aria-modal="true" aria-labelledby="login-error-title">
-            <div className="login-modal login-modal-error">
+            <div className="login-modal login-modal-message">
               <button
                 type="button"
                 className="login-modal-close"
@@ -138,13 +138,7 @@ export default function LoginPage() {
               >
                 <X size={18} />
               </button>
-              <div className="login-modal-icon">
-                <CircleAlert size={20} />
-              </div>
-              <div className="login-modal-content">
-                <h2 id="login-error-title">Warning</h2>
-                <p>{error}</p>
-              </div>
+              <p id="login-error-title" className="login-modal-message-text">{error}</p>
             </div>
           </div>
         ) : null}
