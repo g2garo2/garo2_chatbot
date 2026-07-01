@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { getApiErrorMessage, plansApi } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import PlanBadge from "../components/PlanBadge";
 import RazorpayCheckoutButton from "../components/RazorpayCheckoutButton";
+import SettingsHeader from "../components/SettingsHeader";
 
 export default function PricingPage() {
   const { user } = useAuth();
@@ -50,18 +50,7 @@ export default function PricingPage() {
 
   return (
     <div className="settings-shell">
-      <div className="settings-header">
-        <div>
-          <p className="section-eyebrow">Plans</p>
-          <h1>Choose the right Garo2 plan</h1>
-        </div>
-        <div className="settings-actions">
-          <PlanBadge plan={currentPlan} />
-          <Link to="/app" className="secondary-button">
-            Back to chat
-          </Link>
-        </div>
-      </div>
+      <SettingsHeader backTo="/app" title="Plans" />
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}
