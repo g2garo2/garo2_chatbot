@@ -98,62 +98,79 @@ export default function LoginPage() {
 
   return (
     <div className="login-shell">
-      <div className="login-card">
-        <img src="/g2-logo.jpeg" alt="Garo2 logo" className="login-logo" />
-        <h1>Garo2</h1>
-        <p className="login-helper-text">Continue with Google or use name and email.</p>
+      <div className="login-layout">
+        <section className="login-brand-panel">
+          <div className="login-brand-content">
+            <img src="/g2-logo.jpeg" alt="Garo2 logo" className="login-logo" />
+            <p className="login-brand-kicker">Welcome to Garo2</p>
+            <h1>Learn, chat, and translate with a clean AI workspace built for Garo and English.</h1>
+            <p className="login-brand-description">
+              Sign in to continue your conversations, manage your plan, and access your personalized language tools
+              from any device.
+            </p>
+          </div>
+        </section>
 
-        <div className="login-auth-section">
-          <p className="login-option-label">Continue with Google</p>
-          <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
+        <div className="login-card">
+          <div className="login-card-header">
+            <h2>Sign in to Garo2</h2>
+            <p className="login-helper-text">Continue with Google or use name and email.</p>
+          </div>
+
+          <div className="login-auth-section">
+            <p className="login-option-label">Continue with Google</p>
+            <div className="login-google-wrap">
+              <GoogleLogin onSuccess={handleSuccess} onError={() => setError("Could not continue with Google.")} />
+            </div>
+          </div>
+
+          <div className="login-divider">
+            <span>or</span>
+          </div>
+
+          <div className="login-form-grid">
+            <form className="login-auth-section login-form-section" onSubmit={handleRegister}>
+              <p className="login-option-label">Create Account</p>
+              <input
+                type="text"
+                className="login-input"
+                placeholder="Name"
+                value={registerName}
+                onChange={(event) => setRegisterName(event.target.value)}
+                disabled={loadingAction !== ""}
+              />
+              <input
+                type="email"
+                className="login-input"
+                placeholder="Email"
+                value={registerEmail}
+                onChange={(event) => setRegisterEmail(event.target.value)}
+                disabled={loadingAction !== ""}
+              />
+              <button type="submit" className="primary-button login-submit-button" disabled={loadingAction !== ""}>
+                {loadingAction === "register" ? "Creating..." : "Create Account"}
+              </button>
+            </form>
+
+            <form className="login-auth-section login-form-section" onSubmit={handleLogin}>
+              <p className="login-option-label">Login</p>
+              <input
+                type="email"
+                className="login-input"
+                placeholder="Email"
+                value={loginEmail}
+                onChange={(event) => setLoginEmail(event.target.value)}
+                disabled={loadingAction !== ""}
+              />
+              <button type="submit" className="secondary-button login-submit-button" disabled={loadingAction !== ""}>
+                {loadingAction === "login" ? "Logging in..." : "Login"}
+              </button>
+            </form>
+          </div>
+
+          {success ? <p className="success-banner login-status-banner">{success}</p> : null}
+          {error ? <p className="error-banner login-status-banner">{error}</p> : null}
         </div>
-
-        <div className="login-divider">
-          <span>or</span>
-        </div>
-
-        <div className="login-form-grid">
-          <form className="login-auth-section login-form-section" onSubmit={handleRegister}>
-            <p className="login-option-label">Create Account</p>
-            <input
-              type="text"
-              className="login-input"
-              placeholder="Name"
-              value={registerName}
-              onChange={(event) => setRegisterName(event.target.value)}
-              disabled={loadingAction !== ""}
-            />
-            <input
-              type="email"
-              className="login-input"
-              placeholder="Email"
-              value={registerEmail}
-              onChange={(event) => setRegisterEmail(event.target.value)}
-              disabled={loadingAction !== ""}
-            />
-            <button type="submit" className="primary-button login-submit-button" disabled={loadingAction !== ""}>
-              {loadingAction === "register" ? "Creating..." : "Create Account"}
-            </button>
-          </form>
-
-          <form className="login-auth-section login-form-section" onSubmit={handleLogin}>
-            <p className="login-option-label">Login</p>
-            <input
-              type="email"
-              className="login-input"
-              placeholder="Email"
-              value={loginEmail}
-              onChange={(event) => setLoginEmail(event.target.value)}
-              disabled={loadingAction !== ""}
-            />
-            <button type="submit" className="secondary-button login-submit-button" disabled={loadingAction !== ""}>
-              {loadingAction === "login" ? "Logging in..." : "Login"}
-            </button>
-          </form>
-        </div>
-
-        {success ? <p className="success-banner login-status-banner">{success}</p> : null}
-        {error ? <p className="error-banner login-status-banner">{error}</p> : null}
       </div>
     </div>
   );
