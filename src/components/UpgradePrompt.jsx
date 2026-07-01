@@ -11,7 +11,7 @@ export default function UpgradePrompt({
     <div className={`upgrade-prompt ${compact ? "compact" : ""}`}>
       {!compact ? (
         <button type="button" className="upgrade-prompt-close" onClick={onClose} aria-label="Close upgrade popup">
-          x
+          ×
         </button>
       ) : null}
       <p>{message}</p>
