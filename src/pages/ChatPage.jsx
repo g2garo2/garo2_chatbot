@@ -379,25 +379,23 @@ export default function ChatPage() {
           </div>
         ) : null}
         {!initialLoading ? (
-          <>
-            <ChatWindow
-              messages={messages}
-              pending={pending}
-              bottomRef={bottomRef}
-              onCopyMessage={handleCopyMessage}
-              onRegenerateMessage={handleRegenerateMessage}
-              copiedMessageId={copiedMessageId}
-              userName={user?.name || "there"}
-            />
-            <ChatInput
-              onSend={sendMessage}
-              onTranslate={handleTranslate}
-              disabled={pending}
-              showMobilePrompts={!messages.length}
-              promptSuggestions={promptSuggestions}
-            />
-          </>
+          <ChatWindow
+            messages={messages}
+            pending={pending}
+            bottomRef={bottomRef}
+            onCopyMessage={handleCopyMessage}
+            onRegenerateMessage={handleRegenerateMessage}
+            copiedMessageId={copiedMessageId}
+            userName={user?.name || "there"}
+          />
         ) : null}
+        <ChatInput
+          onSend={sendMessage}
+          onTranslate={handleTranslate}
+          disabled={pending || initialLoading}
+          showMobilePrompts={!initialLoading && !messages.length}
+          promptSuggestions={promptSuggestions}
+        />
       </main>
 
       {mobileSidebarOpen ? <div className="backdrop" onClick={() => setMobileSidebarOpen(false)} /> : null}
