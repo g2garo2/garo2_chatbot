@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import Sidebar from "../components/Sidebar";
 import ChatWindow from "../components/ChatWindow";
 import ChatInput from "../components/ChatInput";
+import LoadingSpinner from "../components/LoadingSpinner";
 import PlanBadge from "../components/PlanBadge";
 import UpgradePrompt from "../components/UpgradePrompt";
 
@@ -27,6 +28,7 @@ export default function ChatPage() {
   const [activeChatId, setActiveChatId] = useState(null);
   const [messages, setMessages] = useState([]);
   const [pending, setPending] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState("");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("garo2_theme") || "dark");
@@ -43,8 +45,16 @@ export default function ChatPage() {
     : "You have reached your limit for this plan. Upgrade your plan to continue.";
 
   useEffect(() => {
-    loadHistory();
-    loadPromptSuggestions();
+    const loadInitialData = async () => {
+      setInitialLoading(true);
+      await Promise.all([
+        loadHistory(),
+        loadPromptSuggestions(),
+      ]);
+      setInitialLoading(false);
+    };
+
+    loadInitialData();
   }, []);
 
   useEffect(() => {
@@ -363,22 +373,31 @@ export default function ChatPage() {
             <UpgradePrompt message={upgradePromptMessage} onClose={() => setError("")} />
           </div>
         ) : null}
-        <ChatWindow
-          messages={messages}
-          pending={pending}
-          bottomRef={bottomRef}
-          onCopyMessage={handleCopyMessage}
-          onRegenerateMessage={handleRegenerateMessage}
-          copiedMessageId={copiedMessageId}
-          userName={user?.name || "there"}
-        />
-        <ChatInput
-          onSend={sendMessage}
-          onTranslate={handleTranslate}
-          disabled={pending}
-          showMobilePrompts={!messages.length}
-          promptSuggestions={promptSuggestions}
-        />
+        {initialLoading ? (
+          <div className="chat-page-loader">
+            <LoadingSpinner label="Loading chats" />
+          </div>
+        ) : null}
+        {!initialLoading ? (
+          <>
+            <ChatWindow
+              messages={messages}
+              pending={pending}
+              bottomRef={bottomRef}
+              onCopyMessage={handleCopyMessage}
+              onRegenerateMessage={handleRegenerateMessage}
+              copiedMessageId={copiedMessageId}
+              userName={user?.name || "there"}
+            />
+            <ChatInput
+              onSend={sendMessage}
+              onTranslate={handleTranslate}
+              disabled={pending}
+              showMobilePrompts={!messages.length}
+              promptSuggestions={promptSuggestions}
+            />
+          </>
+        ) : null}
       </main>
 
       {mobileSidebarOpen ? <div className="backdrop" onClick={() => setMobileSidebarOpen(false)} /> : null}

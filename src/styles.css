@@ -696,6 +696,13 @@ input {
   overscroll-behavior: contain;
 }
 
+.chat-page-loader {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
 .chat-column {
   width: min(100%, 860px);
   margin: 0 auto;
