@@ -1,7 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
-
 :root {
-  font-family: "Manrope", "Segoe UI", sans-serif;
+  font-family: "Segoe UI", "Trebuchet MS", "Noto Sans", sans-serif;
   --bg: #09131d;
   --bg-secondary: #0d1721;
   --panel: #0f1b27;
@@ -62,6 +60,22 @@ input {
   min-height: 100dvh;
   display: grid;
   place-items: center;
+}
+
+.app-loader-spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid color-mix(in srgb, var(--accent) 18%, var(--panel));
+  border-top-color: var(--accent-strong);
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  animation: app-loader-spin 0.9s linear infinite;
+}
+
+.settings-loader-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 8px;
 }
 
 .login-card,
@@ -355,6 +369,12 @@ input {
 }
 
 @keyframes login-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes app-loader-spin {
   to {
     transform: rotate(360deg);
   }

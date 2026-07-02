@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { getApiErrorMessage, plansApi } from "../api/client";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useAuth } from "../context/AuthContext";
 import PlanBadge from "../components/PlanBadge";
 import RazorpayCheckoutButton from "../components/RazorpayCheckoutButton";
@@ -54,7 +55,11 @@ export default function PricingPage() {
 
       {error ? <div className="error-banner settings-banner">{error}</div> : null}
       {success ? <div className="success-banner settings-banner">{success}</div> : null}
-      {loading ? <div className="settings-banner">Loading plans...</div> : null}
+      {loading ? (
+        <div className="settings-loader-wrap">
+          <LoadingSpinner label="Loading plans" />
+        </div>
+      ) : null}
 
       <section className="pricing-grid">
         {plans.map((plan) => {

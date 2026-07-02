@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import LoadingSpinner from "./components/LoadingSpinner";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { initAnalytics, trackPageView } from "./analytics";
 
@@ -28,7 +29,7 @@ function AnalyticsTracker() {
 }
 
 function AppLoader() {
-  return <div className="screen-center">Loading Garo2...</div>;
+  return <LoadingSpinner centered />;
 }
 
 function ProtectedRoute({ children }) {
