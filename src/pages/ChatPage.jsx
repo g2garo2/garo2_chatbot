@@ -63,6 +63,36 @@ export default function ChatPage() {
   }, [theme]);
 
   useEffect(() => {
+    const syncAppHeight = () => {
+      const viewportHeight = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty("--app-height", `${Math.round(viewportHeight)}px`);
+    };
+
+    const syncOnNextFrame = () => {
+      window.requestAnimationFrame(() => {
+        syncAppHeight();
+      });
+    };
+
+    document.body.classList.add("app-page");
+    syncAppHeight();
+    syncOnNextFrame();
+
+    window.addEventListener("resize", syncOnNextFrame);
+    window.addEventListener("orientationchange", syncOnNextFrame);
+    window.addEventListener("pageshow", syncOnNextFrame);
+    window.visualViewport?.addEventListener("resize", syncOnNextFrame);
+
+    return () => {
+      document.body.classList.remove("app-page");
+      window.removeEventListener("resize", syncOnNextFrame);
+      window.removeEventListener("orientationchange", syncOnNextFrame);
+      window.removeEventListener("pageshow", syncOnNextFrame);
+      window.visualViewport?.removeEventListener("resize", syncOnNextFrame);
+    };
+  }, []);
+
+  useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, pending]);
 
