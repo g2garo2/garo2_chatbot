@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
-import { CreditCard, Gauge, LogOut, MessageSquare, Search, Settings, Trash2 } from "lucide-react";
+import { CreditCard, Gauge, LogOut, MessageSquare, Search, Settings, Share2, Trash2 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import PlanBadge from "./PlanBadge";
+
+const SHARE_URL = "https://garo2.com";
 
 export default function Sidebar({
   user,
@@ -13,6 +15,7 @@ export default function Sidebar({
   onLogout,
 }) {
   const [query, setQuery] = useState("");
+  const [shareFeedback, setShareFeedback] = useState("");
 
   const filteredChats = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -22,6 +25,26 @@ export default function Sidebar({
 
     return chats.filter((chat) => chat.title.toLowerCase().includes(normalizedQuery));
   }, [chats, query]);
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Garo2",
+          url: SHARE_URL,
+        });
+        setShareFeedback("");
+        return;
+      }
+
+      await navigator.clipboard.writeText(SHARE_URL);
+      setShareFeedback("Link copied");
+      window.setTimeout(() => setShareFeedback(""), 1800);
+    } catch (_error) {
+      setShareFeedback("Could not share");
+      window.setTimeout(() => setShareFeedback(""), 1800);
+    }
+  };
 
   return (
     <div className="sidebar-inner">
@@ -57,6 +80,10 @@ export default function Sidebar({
           <Settings size={16} />
           Settings
         </NavLink>
+        <button type="button" className="secondary-button sidebar-link-button" onClick={handleShare}>
+          <Share2 size={16} />
+          {shareFeedback || "Share"}
+        </button>
       </div>
 
       <div className="chat-list">
