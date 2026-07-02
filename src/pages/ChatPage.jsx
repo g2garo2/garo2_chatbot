@@ -327,7 +327,7 @@ export default function ChatPage() {
         />
       </aside>
 
-      <main className="chat-layout">
+      <main className={`chat-layout ${initialLoading ? "is-loading" : ""}`}>
         <header className="topbar">
           <button className="icon-button mobile-only" onClick={() => setMobileSidebarOpen(true)}>
             <Menu size={18} />
