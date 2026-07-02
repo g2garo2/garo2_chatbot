@@ -1,5 +1,8 @@
 import axios from "axios";
 
+const NETWORK_ISSUE_EVENT = "garo2-network-issue";
+const REQUEST_TIMEOUT_MS = 15000;
+
 function resolveApiBaseUrl() {
   const rawBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").trim();
   if (!rawBaseUrl) {
@@ -17,7 +20,12 @@ function resolveApiBaseUrl() {
 
 const api = axios.create({
   baseURL: resolveApiBaseUrl(),
+  timeout: REQUEST_TIMEOUT_MS,
 });
+
+function emitNetworkIssue() {
+  window.dispatchEvent(new CustomEvent(NETWORK_ISSUE_EVENT));
+}
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("garo2_token");
@@ -26,6 +34,27 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isNetworkIssue =
+      error?.code === "ECONNABORTED" ||
+      error?.message === "Network Error" ||
+      (!error?.response && typeof error?.message === "string");
+
+    if (isNetworkIssue) {
+      emitNetworkIssue();
+    }
+
+    return Promise.reject(error);
+  },
+);
+
+export function subscribeToNetworkIssues(listener) {
+  window.addEventListener(NETWORK_ISSUE_EVENT, listener);
+  return () => window.removeEventListener(NETWORK_ISSUE_EVENT, listener);
+}
 
 export const authApi = {
   googleLogin: async (credential) => {
@@ -136,6 +165,13 @@ export const feedbackApi = {
 };
 
 export function getApiErrorMessage(error, fallback = "Something went wrong.") {
+  const isNetworkIssue =
+    error?.code === "ECONNABORTED" ||
+    error?.message === "Network Error" ||
+    (!error?.response && typeof error?.message === "string");
+  if (isNetworkIssue) {
+    return "Please check your network connection and try again.";
+  }
   const detail = error?.response?.data?.detail;
   if (typeof detail === "string" && detail.trim()) {
     return detail;

@@ -1,8 +1,10 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import LoadingSpinner from "./components/LoadingSpinner";
+import NetworkIssuePopup from "./components/NetworkIssuePopup";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { initAnalytics, trackPageView } from "./analytics";
+import { subscribeToNetworkIssues } from "./api/client";
 
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const ChatPage = lazy(() => import("./pages/ChatPage"));
@@ -63,6 +65,24 @@ function HomeRoute() {
 }
 
 export default function App() {
+  const [showNetworkPopup, setShowNetworkPopup] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToNetworkIssues(() => {
+      setShowNetworkPopup(true);
+    });
+
+    const handleOffline = () => {
+      setShowNetworkPopup(true);
+    };
+
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      unsubscribe();
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
   return (
     <AuthProvider>
       <AnalyticsTracker />
@@ -123,6 +143,11 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      <NetworkIssuePopup
+        open={showNetworkPopup}
+        onClose={() => setShowNetworkPopup(false)}
+        onRetry={() => window.location.reload()}
+      />
     </AuthProvider>
   );
 }
