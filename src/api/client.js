@@ -78,6 +78,10 @@ export const chatApi = {
     const { data } = await api.post(`/chat/${chatId}/message`, payload);
     return data;
   },
+  regenerateMessage: async (chatId, messageId) => {
+    const { data } = await api.post(`/chat/${chatId}/messages/${messageId}/regenerate`);
+    return data;
+  },
   deleteChat: async (chatId) => {
     const { data } = await api.delete(`/chat/${chatId}`);
     return data;

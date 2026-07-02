@@ -253,6 +253,16 @@ export default function ChatPage() {
       return;
     }
 
+    if (assistantMessage.message_kind === "translate") {
+      setError("Regenerate is only available for saved chat responses.");
+      return;
+    }
+
+    if (!activeChatId) {
+      setError("Could not find this chat.");
+      return;
+    }
+
     const assistantIndex = messages.findIndex((message) => message.id === assistantMessage.id);
     if (assistantIndex <= 0) {
       setError("Could not find the prompt for this response.");
@@ -269,15 +279,28 @@ export default function ChatPage() {
       return;
     }
 
-    if (assistantMessage.message_kind === "translate" || promptMessage.message_kind === "translate") {
-      await handleTranslate({
-        text: promptMessage.content,
-        translationMode: promptMessage.translation_mode || assistantMessage.translation_mode || "english_to_garo",
-      });
+    if (promptMessage.message_kind === "translate") {
+      setError("Regenerate is only available for saved chat responses.");
       return;
     }
 
-    await submitMessage({ text: promptMessage.content });
+    setPending(true);
+    setError("");
+    try {
+      const response = await chatApi.regenerateMessage(activeChatId, assistantMessage.id);
+      setMessages((prev) =>
+        prev.map((message) =>
+          message.id === assistantMessage.id
+            ? { ...message, ...response.assistant_message }
+            : message,
+        ),
+      );
+      await refreshHistory(response.chat?.id || activeChatId);
+    } catch (err) {
+      setError(getApiErrorMessage(err, "Could not regenerate the response."));
+    } finally {
+      setPending(false);
+    }
   };
 
   return (

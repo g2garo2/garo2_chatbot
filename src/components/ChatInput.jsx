@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { GraduationCap, Landmark, Languages, MapPinned, Plus, Send, X } from "lucide-react";
 
-const mobilePromptSuggestions = [
-  "Tell me 10 interesting facts about Meghalaya’s history, culture, festivals, tribes, and famous places in simple student-friendly language.",
-  "Quiz me with 20 general knowledge questions about Meghalaya, including answers and short explanations.",
-  "Explain Meghalaya district-wise with important facts about geography, people, culture, tourism, and current development for students.",
-];
-
 const mobilePromptActions = [
   {
     icon: Landmark,
@@ -69,18 +63,20 @@ export default function ChatInput({
     }
     setText("");
   };
+
   const translationLabel =
     translationMode === "english_to_garo"
       ? "Translate English to Garo"
       : translationMode === "garo_to_english"
         ? "Translate Garo to English"
         : "";
-  const resolvedPromptActions = (promptSuggestions.length ? promptSuggestions : mobilePromptActions.map((prompt) => prompt.text)).map(
-    (text, index) => ({
-      icon: promptIcons[index] || Landmark,
-      text,
-    }),
-  );
+
+  const resolvedPromptActions = (
+    promptSuggestions.length ? promptSuggestions : mobilePromptActions.map((prompt) => prompt.text)
+  ).map((text, index) => ({
+    icon: promptIcons[index] || Landmark,
+    text,
+  }));
 
   return (
     <form className="composer" onSubmit={submit}>
@@ -116,7 +112,7 @@ export default function ChatInput({
           >
             {menuOpen ? <X size={18} /> : <Plus size={18} />}
           </button>
-            {menuOpen ? (
+          {menuOpen ? (
             <div className="composer-menu">
               <button
                 type="button"
