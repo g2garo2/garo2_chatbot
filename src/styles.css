@@ -654,7 +654,42 @@ input {
 }
 
 .delete-chat {
-  color: var(--text-muted);
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border: 1px solid color-mix(in srgb, var(--danger-border) 72%, var(--border));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--danger) 72%, var(--panel));
+  color: #ffb3b3;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.delete-chat:hover {
+  background: color-mix(in srgb, rgba(214, 64, 64, 0.28) 76%, var(--panel-strong));
+  border-color: color-mix(in srgb, #ff9a9a 62%, var(--danger-border));
+  color: #ffd7d7;
+  transform: translateY(-1px);
+}
+
+.delete-chat:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, rgba(214, 64, 64, 0.22) 100%, transparent);
+}
+
+.delete-chat svg {
+  display: block;
+}
+
+.chat-row.active .delete-chat {
+  background: color-mix(in srgb, rgba(214, 64, 64, 0.22) 72%, var(--panel-strong));
+  color: #ffd0d0;
 }
 
 .sidebar-empty {

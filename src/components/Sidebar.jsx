@@ -97,15 +97,18 @@ export default function Sidebar({
               <MessageSquare size={16} />
               <span>{chat.title}</span>
             </div>
-            <span
+            <button
+              type="button"
               className="delete-chat"
+              aria-label={`Delete ${chat.title}`}
+              title="Delete chat"
               onClick={(event) => {
                 event.stopPropagation();
                 onDeleteChat(chat.id);
               }}
             >
               <Trash2 size={14} />
-            </span>
+            </button>
           </button>
         ))}
         {!filteredChats.length ? <div className="sidebar-empty">No chats found.</div> : null}
