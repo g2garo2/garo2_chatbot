@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Bot, Menu, Plus } from "lucide-react";
 import { chatApi, getApiErrorMessage, translateApi } from "../api/client";
@@ -274,7 +274,7 @@ export default function ChatPage() {
     }
   };
 
-  const handleCopyMessage = async (message) => {
+  const handleCopyMessage = useCallback(async (message) => {
     try {
       await navigator.clipboard.writeText(message.content || "");
       const messageId = String(message.id);
@@ -286,9 +286,9 @@ export default function ChatPage() {
     } catch (err) {
       setError("Could not copy the response.");
     }
-  };
+  }, []);
 
-  const handleRegenerateMessage = async (assistantMessage) => {
+  const handleRegenerateMessage = useCallback(async (assistantMessage) => {
     if (pending) {
       return;
     }
@@ -341,7 +341,7 @@ export default function ChatPage() {
     } finally {
       setPending(false);
     }
-  };
+  }, [activeChatId, messages, pending]);
 
   return (
     <div className="app-shell">

@@ -1,36 +1,39 @@
+import { memo } from "react";
 import { Check, Copy, RefreshCcw } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-export default function MessageBubble({ message, onCopy, onRegenerate, copied }) {
+const markdownComponents = {
+  a: ({ ...props }) => <a {...props} target="_blank" rel="noreferrer" />,
+  code: ({ inline, className, children, ...props }) =>
+    inline ? (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    ) : (
+      <pre className="message-code-block">
+        <code className={className} {...props}>
+          {children}
+        </code>
+      </pre>
+    ),
+  table: ({ children }) => (
+    <div className="table-wrap">
+      <table>{children}</table>
+    </div>
+  ),
+};
+
+const MarkdownBody = memo(function MarkdownBody({ content }) {
+  return <ReactMarkdown components={markdownComponents}>{content}</ReactMarkdown>;
+});
+
+function MessageBubble({ message, onCopy, onRegenerate, copied }) {
   const isAssistant = message.role === "assistant";
 
   return (
     <article className={`message-row ${isAssistant ? "assistant" : "user"}`}>
       <div className="message-bubble">
-        <ReactMarkdown
-          components={{
-            a: ({ ...props }) => <a {...props} target="_blank" rel="noreferrer" />,
-            code: ({ inline, className, children, ...props }) =>
-              inline ? (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              ) : (
-                <pre className="message-code-block">
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                </pre>
-              ),
-            table: ({ children }) => (
-              <div className="table-wrap">
-                <table>{children}</table>
-              </div>
-            ),
-          }}
-        >
-          {message.content}
-        </ReactMarkdown>
+        <MarkdownBody content={message.content} />
         {isAssistant ? (
           <>
             <div className="message-actions">
@@ -62,3 +65,5 @@ export default function MessageBubble({ message, onCopy, onRegenerate, copied })
     </article>
   );
 }
+
+export default memo(MessageBubble);
