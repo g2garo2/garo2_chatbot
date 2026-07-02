@@ -728,7 +728,8 @@ input {
 
 .chat-layout.is-loading .chat-window,
 .chat-layout.is-loading .error-banner,
-.chat-layout.is-loading .upgrade-prompt-overlay {
+.chat-layout.is-loading .upgrade-prompt-overlay,
+.chat-layout.is-loading .composer {
   visibility: hidden;
 }
 
